@@ -3,7 +3,6 @@
 //
 
 #include "Function/Logger.h"
-
 Logger::Logger(const char *logger_name, const char *filepath, const char *pattern) {
   auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
   if (filepath == nullptr) {

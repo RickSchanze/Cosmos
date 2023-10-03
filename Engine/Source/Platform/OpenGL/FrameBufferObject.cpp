@@ -5,13 +5,13 @@
 #include "Platform/OpenGL/FrameBufferObject.h"
 #include "Function/Logger.h"
 #include "glad/glad.h"
-namespace Cosmos::Platform::OpenGL {
 FrameBufferObject::FrameBufferObject() {
   // 帧缓冲配置
   glGenFramebuffers(1, &m_FBO_id);
   glBindFramebuffer(GL_FRAMEBUFFER, m_FBO_id);
   glGenTextures(1, &m_frame_texture_id);
   glBindTexture(GL_TEXTURE_2D, m_frame_texture_id);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // GL_NEAREST
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // GL_NEAREST
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_frame_texture_id, 0);
@@ -53,5 +53,3 @@ void FrameBufferObject::ResizeRenderBuffer(int x, int y) const {
   glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, x, y);
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
-
-} // namespace Cosmos::Platform::OpenGL

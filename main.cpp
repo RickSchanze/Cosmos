@@ -1,8 +1,9 @@
-#include <iostream>
 #include "Editor/Application.h"
+#include "Windows.h"
 
 int main() {
-    Cosmos::Editor::Application app;
-    app.Run();
-    return 0;
+  SetConsoleOutputCP(CP_UTF8);
+  Application *app = Application::GetApplication();
+  app->Run();
+  return 0;
 }

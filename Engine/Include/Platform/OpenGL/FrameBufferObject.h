@@ -5,7 +5,6 @@
 #ifndef COSMOS_FRAMEBUFFEROBJECT_H
 #define COSMOS_FRAMEBUFFEROBJECT_H
 #include <cstdint>
-namespace Cosmos::Platform::OpenGL {
 class FrameBufferObject {
 public:
   FrameBufferObject();
@@ -40,6 +39,5 @@ private:
   uint32_t m_RBO_id{};
   uint32_t m_frame_texture_id{};
 };
-} // namespace Cosmos::Platform::OpenGL
 
 #endif // COSMOS_FRAMEBUFFEROBJECT_H
