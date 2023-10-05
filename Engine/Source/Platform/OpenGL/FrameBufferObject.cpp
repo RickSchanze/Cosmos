@@ -3,7 +3,7 @@
 //
 
 #include "Platform/OpenGL/FrameBufferObject.h"
-#include "Function/Logger.h"
+#include "Core/Log/Logger.h"
 #include "glad/glad.h"
 FrameBufferObject::FrameBufferObject() {
   // 帧缓冲配置

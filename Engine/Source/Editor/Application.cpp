@@ -3,8 +3,8 @@
 //
 
 #include "Editor/Application.h"
+#include "Core/Log/Logger.h"
 #include "Editor/EditorUIHelper.h"
-#include "Function/Logger.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"

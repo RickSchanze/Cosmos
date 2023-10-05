@@ -4,10 +4,12 @@
 
 #ifndef COSMOS_VERTEXARRAYOBJECT_H
 #define COSMOS_VERTEXARRAYOBJECT_H
-#include "VertexBufferObject.h"
+
 #include <cstdint>
 #include <memory>
 #include <vector>
+
+class VertexBufferObject;
 
 /**
  * NOTE:

@@ -3,7 +3,9 @@
 //
 
 #include "Platform/OpenGL/VertexArrayObject.h"
+#include "Platform/OpenGL/VertexBufferObject.h"
 #include "glad/glad.h"
+
 VertexArrayObject::VertexArrayObject() { glGenVertexArrays(1, &m_VAO_id); }
 
 VertexArrayObject::~VertexArrayObject() {

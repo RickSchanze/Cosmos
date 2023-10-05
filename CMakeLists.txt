@@ -26,5 +26,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 find_package(imgui CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE imgui::imgui)
 
-find_package(Eigen3 CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
+find_package(glm CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
+
