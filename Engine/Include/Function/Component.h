@@ -9,7 +9,11 @@
 class GameObject;
 
 class Component : public Object {
+  friend class GameObject;
+
 public:
+  explicit Component(GameObject *owner) : m_owner_object(owner) {}
+
   virtual ~Component() = default;
 
 protected:
@@ -20,10 +24,11 @@ protected:
   virtual void EndPlay() {}
 
 public:
-  GameObject *OwnerObject{};
+  GameObject *GetOwner() const { return m_owner_object; }
 
 private:
   bool m_enabled = true;
+  GameObject *m_owner_object{};
 };
 
 #endif // COSMOS_COMPONENT_H

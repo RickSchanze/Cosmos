@@ -7,9 +7,9 @@
 #include "glm/glm.hpp"
 #include "imgui.h"
 
-glm::vec3 ToVec3(const ImVec4 &vec4) { return {vec4.x, vec4.y, vec4.z}; }
+static glm::vec3 ToVec3(const ImVec4 &vec4) { return {vec4.x, vec4.y, vec4.z}; }
 
-glm::vec2 ToVec2(const ImVec2 &vec2) { return {vec2.x, vec2.y}; }
+static glm::vec2 ToVec2(const ImVec2 &vec2) { return {vec2.x, vec2.y}; }
 
 namespace Constant {
 

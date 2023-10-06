@@ -10,11 +10,15 @@
 #include "glm/vec3.hpp"
 
 class TransformComponent : public Component {
+  friend class GameObject;
+
 public:
   inline glm::vec3 GetForward() const { return m_forward; }
   inline glm::vec3 GetUp() const { return m_up; }
 
 private:
+  explicit TransformComponent(GameObject *owner) : Component(owner), m_forward(Constant::Forward), m_up(Constant::Up) {}
+
   glm::vec3 m_forward;
   glm::vec3 m_up;
 
