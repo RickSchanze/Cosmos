@@ -12,20 +12,16 @@
 class TransformComponent : public Component {
   friend class GameObject;
 
-public:
-  inline glm::vec3 GetForward() const { return m_forward; }
-  inline glm::vec3 GetUp() const { return m_up; }
-
 private:
-  explicit TransformComponent(GameObject *owner) : Component(owner), m_forward(Constant::Forward), m_up(Constant::Up) {}
-
-  glm::vec3 m_forward;
-  glm::vec3 m_up;
+  explicit TransformComponent(GameObject *owner) : Component(owner) {}
 
 public:
-  glm::vec3 Position = Constant::Zero;
-  glm::vec3 Rotation = Constant::Zero;
-  glm::vec3 Scale = Constant::One;
+  glm::vec3 Position = Constant::Vec3::Zero;
+  glm::vec3 Rotation = Constant::Vec3::Zero;
+  glm::vec3 Scale = Constant::Vec3::One;
+  glm::vec3 Forward = Constant::Vec3::Forward;
+  glm::vec3 Right = Constant::Vec3::Right;
+  glm::vec3 Up = Constant::Vec3::Up;
 };
 
 #endif // COSMOS_TRANSFORMCOMPONENT_H

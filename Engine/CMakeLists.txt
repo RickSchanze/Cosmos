@@ -12,8 +12,8 @@ file(GLOB_RECURSE HEADER_FILES Include/*.h)
 add_library(${PROJECT_NAME} ${SOURCE_FILES}
         ${HEADER_FILES})
 
-configure_file(${PROJECT_SOURCE_DIR}/Include/Global/GlobalDefinition.h.in
-        ${PROJECT_SOURCE_DIR}/Include/Global/GlobalDefinition.h)
+configure_file(${PROJECT_SOURCE_DIR}/Include/Global/ExternalVariables.h.in
+        ${PROJECT_SOURCE_DIR}/Include/Global/ExternalVariables.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC Include)
 target_include_directories(${PROJECT_NAME} PRIVATE Source)

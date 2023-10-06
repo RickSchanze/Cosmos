@@ -26,7 +26,7 @@ protected:
 public:
   GameObject *GetOwner() const { return m_owner_object; }
 
-private:
+protected:
   bool m_enabled = true;
   GameObject *m_owner_object{};
 };
