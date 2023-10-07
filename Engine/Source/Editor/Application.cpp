@@ -7,6 +7,8 @@
 #include "Editor/EditorUIHelper.h"
 #include "Editor/UI/DebugWidget.h"
 #include "Editor/UI/SceneViewWidget.h"
+#include "Function/Event/GameEvent.h"
+#include "Function/Event/KeyEventHelper.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -109,6 +111,21 @@ void Application::TickEditorUI() {
   ImGui_ImplGlfw_NewFrame();
   ImGui::NewFrame();
   ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+  // 检测键盘事件
+  for (int key = ImGuiKey_NamedKey_BEGIN; key < ImGuiKey_COUNT; key++) {
+    if (ImGui::IsKeyPressed((ImGuiKey)key, false)) {
+      KeyPressedEvent event{GetKeyCode(key)};
+      GameEvent::OnKeyPressed.Invoke(event);
+    }
+    if (ImGui::IsKeyReleased((ImGuiKey)key)) {
+      KeyReleasedEvent event{GetKeyCode(key)};
+      GameEvent::OnKeyReleased.Invoke(event);
+    }
+    if (ImGui::IsKeyDown((ImGuiKey)key)) {
+      KeyDownEvent event{GetKeyCode(key)};
+      GameEvent::OnKeyDown.Invoke(event);
+    }
+  }
   // OpenGLMainWindow的GUI
   ImGui::Begin("全局信息", nullptr);
   ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
