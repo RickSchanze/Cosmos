@@ -23,7 +23,11 @@
 template <typename... Args>
 class Delegate {
 public:
-  void operator()(Args... args) const { m_function(args...); }
+  // 这里使用了模版和完美转发
+  template <class... InvokeArgs>
+  void operator()(InvokeArgs &&...args) const {
+    m_function(std::forward<InvokeArgs...>(args...));
+  }
 
   auto operator<=>(const Delegate<Args...> &rhs) const { return m_name <=> rhs.m_name; }
 
@@ -68,6 +72,9 @@ public:
   Event(const Event<Args...> &) = delete;
   Event &operator=(const Event<Args...> &) = delete;
 
+  /*
+   * @brief 添加事件监听器,使用了std::move因此如果调用了此函数就不要使用delegate来调用函数了
+   */
   void AddEventListener(Delegate<Args...> delegate) { m_event_listeners.push_back(std::move(delegate)); }
 
   template <typename ObjectType, typename ClassFunc>
@@ -88,10 +95,11 @@ public:
     }
   }
 
+  // 使用模版和完美转发
   template <typename... InvokeArgs>
-  void Invoke(InvokeArgs... args) {
+  void Invoke(InvokeArgs &&...args) {
     for (auto &listener : m_event_listeners) {
-      listener(args...);
+      listener(std::forward<InvokeArgs...>(args...));
     }
   }
 
