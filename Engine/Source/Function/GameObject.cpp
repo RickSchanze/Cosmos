@@ -3,9 +3,9 @@
 //
 
 #include "Function/GameObject.h"
-#include "Function/Component.h"
+#include "Function/Component/Component.h"
+#include "Function/Component/TransformComponent.h"
 #include "Function/Level.h"
-#include "Function/TransformComponent.h"
 
 GameObject::GameObject() { m_transform = new TransformComponent(this); }
 
@@ -40,7 +40,8 @@ void GameObject::SetOwnerLevel(Level *level) {
   m_owner_level->AddGameObject(this);
 }
 
-template <typename T> requires IsComponent<T>
+template <typename T>
+requires IsComponent<T>
 bool GameObject::RemoveComponent() {
   for (auto it = m_components.begin(); it != m_components.end(); ++it) {
     if (dynamic_cast<T *>(*it)) {
@@ -53,7 +54,8 @@ bool GameObject::RemoveComponent() {
   return false;
 }
 
-template <typename T> requires IsComponent<T>
+template <typename T>
+requires IsComponent<T>
 T *GameObject::AddComponent() {
   T *component = new T(this);
   component->BeginPlay();

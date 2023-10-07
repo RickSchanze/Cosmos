@@ -1,14 +1,24 @@
-//
-// Created by Echo on 2023/10/6.
-// 基于枚举的事件机制
-//
+/**
+ * @file EventSystem.h
+ * @author
+ * @brief 事件系统
+ * 注意：
+ * 1.如果将对象的成员函数以及对象传递给Event
+ * 那么一定要在对象析构时取消注册Event
+ * 否则很可能崩溃
+ * 2.如果增加时拥有同名的Delegate，那么会被覆盖
+ */
 
 #ifndef COSMOS_EVENT_H
 #define COSMOS_EVENT_H
 #include <functional>
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
+
+#include "Core/Log/Logger.h"
+#include "Global/GlobalDefiniation.h"
 
 template <typename... Args>
 class Delegate {
@@ -53,11 +63,16 @@ private:
 template <typename... Args>
 class Event {
 public:
+  Event() = default;
+  // 禁止拷贝构造和赋值
+  Event(const Event<Args...> &) = delete;
+  Event &operator=(const Event<Args...> &) = delete;
+
   void AddEventListener(Delegate<Args...> delegate) { m_event_listeners.push_back(std::move(delegate)); }
 
   template <typename ObjectType, typename ClassFunc>
   void AddEventListener(std::string name, ObjectType *obj, ClassFunc func) {
-    m_event_listeners.emplace_back(std::move(name), obj, func);
+    m_event_listeners.emplace_back(name, obj, func);
   }
 
   template <typename Func>
@@ -83,7 +98,6 @@ public:
   [[nodiscard]] size_t Size() const { return m_event_listeners.size(); }
 
 private:
-  // 可能后期可以使用std::map优化?
   std::vector<Delegate<Args...>> m_event_listeners;
 };
 

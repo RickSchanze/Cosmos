@@ -6,8 +6,17 @@
 #define COSMOS_APPLICATION_H
 #include "glad/glad.h"
 
+#include "Editor/Concepts.h"
 #include "GLFW/glfw3.h"
 #include "Platform/OpenGL/FrameBufferObject.h"
+
+#include <string>
+#include <vector>
+
+namespace Editor {
+class SceneViewWidget;
+class Widget;
+} // namespace Editor
 
 class Application {
 public:
@@ -40,13 +49,18 @@ private:
 
   void TickEndFrame();
 
+  template <typename T>
+  requires Editor::IsWidget<T>
+  T *AddWidget(std::string name);
+
 private:
   GLFWwindow *m_main_window = nullptr;
   static inline Application *m_application = nullptr;
 
   int m_width{1920};
   int m_height{1080};
-  FrameBufferObject *m_frame_buffer_object;
+  Editor::SceneViewWidget *m_main_scene_view_widget = nullptr;
+  std::vector<Editor::Widget *> m_widgets;
 };
 
 #endif // COSMOS_APPLICATION_H

@@ -2,10 +2,10 @@
 // Created by Echo on 2023/10/6.
 //
 
-#include "Function/CameraComponent.h"
+#include "Function/Component/CameraComponent.h"
 #include "Core/Base/MathTypes.h"
+#include "Function/Component/TransformComponent.h"
 #include "Function/GameObject.h"
-#include "Function/TransformComponent.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 

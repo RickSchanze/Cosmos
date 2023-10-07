@@ -5,6 +5,8 @@
 #include "Editor/Application.h"
 #include "Core/Log/Logger.h"
 #include "Editor/EditorUIHelper.h"
+#include "Editor/UI/DebugWidget.h"
+#include "Editor/UI/SceneViewWidget.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -84,7 +86,6 @@ Application::Application() { glfwInitialize(); }
 Application::~Application() {
   glfwShutdown();
   delete m_application;
-  delete m_frame_buffer_object;
 }
 
 Application *Application::GetApplication() {
@@ -98,10 +99,9 @@ Application *Application::GetApplication() {
 void Application::TickLogic() {}
 
 void Application::TickRender() {
-  m_frame_buffer_object->Bind();
-  glClearColor(1.f, 0.3f, 0.3f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
-  m_frame_buffer_object->Unbind();
+  // 主窗口必修绑定帧缓冲不然没办法显示
+  m_main_scene_view_widget->BeginRender();
+  m_main_scene_view_widget->EndRender();
 }
 
 void Application::TickEditorUI() {
@@ -113,10 +113,14 @@ void Application::TickEditorUI() {
   ImGui::Begin("全局信息", nullptr);
   ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
   ImGui::End();
-  ImGui::Begin("场景");
-  ImGui::Image(reinterpret_cast<ImTextureID>(m_frame_buffer_object->GetFBO()), ImGui::GetContentRegionAvail(),
-               ImVec2(0, 1), ImVec2(1, 0));
-  ImGui::End();
+
+  if (m_main_scene_view_widget != nullptr) {
+    m_main_scene_view_widget->Render();
+  }
+
+  for (auto &widget : m_widgets) {
+    widget->Render();
+  }
 
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -134,6 +138,31 @@ void Application::TickEndFrame() {
   glfwSwapBuffers(m_main_window);
 }
 
-void Application::OtherShutdown() { delete m_frame_buffer_object; }
+void Application::OtherShutdown() {
+  // 删除主显示对象
+  delete m_main_scene_view_widget;
+  // 删除其他的Widget
+  for (auto &widget : m_widgets) {
+    delete widget;
+  }
+}
 
-void Application::OtherInitialize() { m_frame_buffer_object = new FrameBufferObject(); }
+void Application::OtherInitialize() {
+  m_main_scene_view_widget = new Editor::SceneViewWidget("场景");
+  AddWidget<Editor::DebugWidget>("调试");
+}
+
+template <typename T>
+requires Editor::IsWidget<T>
+T *Application::AddWidget(std::string name) {
+  // 检查名字是否重复
+  if (std::find_if(m_widgets.begin(), m_widgets.end(), [&name](Editor::Widget *w) { return w->GetName() == name; }) !=
+      m_widgets.end()) {
+    LOG_ERROR("添加Widget失败，名字为{}的widget已存在", name);
+    return nullptr;
+  }
+  T *w = new T();
+  w->SetName(name);
+  m_widgets.push_back(w);
+  return w;
+}

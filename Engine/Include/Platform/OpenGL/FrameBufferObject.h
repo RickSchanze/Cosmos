@@ -5,10 +5,13 @@
 #ifndef COSMOS_FRAMEBUFFEROBJECT_H
 #define COSMOS_FRAMEBUFFEROBJECT_H
 #include <cstdint>
+
 class FrameBufferObject {
 public:
   FrameBufferObject();
   ~FrameBufferObject();
+
+  FrameBufferObject(int x, int y);
 
   void Bind() const;
   void Unbind();

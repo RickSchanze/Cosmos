@@ -53,3 +53,5 @@ void FrameBufferObject::ResizeRenderBuffer(int x, int y) const {
   glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, x, y);
   glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
+
+FrameBufferObject::FrameBufferObject(int x, int y) : FrameBufferObject() { Resize(x, y); }

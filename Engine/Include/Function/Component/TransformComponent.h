@@ -4,8 +4,8 @@
 
 #ifndef COSMOS_TRANSFORMCOMPONENT_H
 #define COSMOS_TRANSFORMCOMPONENT_H
-#include "Component.h"
 #include "Core/Base/MathTypes.h"
+#include "Function/Component/Component.h"
 #include "glm/detail/type_vec1.hpp"
 #include "glm/vec3.hpp"
 

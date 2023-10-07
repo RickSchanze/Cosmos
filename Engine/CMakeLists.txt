@@ -9,6 +9,9 @@ set(CMAKE_CXX_STANDARD 20)
 file(GLOB_RECURSE SOURCE_FILES Source/*.cpp)
 file(GLOB_RECURSE HEADER_FILES Include/*.h)
 
+# 在这里控制是否开启Debug
+#add_definitions(-DCOSMOS_DEBUG)
+
 add_library(${PROJECT_NAME} ${SOURCE_FILES}
         ${HEADER_FILES})
 
@@ -32,5 +35,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE imgui::imgui)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
+
 
 
