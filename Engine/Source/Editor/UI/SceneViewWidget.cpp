@@ -11,6 +11,7 @@
 #include "Editor/UI/SceneViewWidget.h"
 #include "Function/Level.h"
 #include "Platform/OpenGL/FrameBufferObject.h"
+#include "Platform/OpenGL/Shader.h"
 #include "Platform/OpenGL/VertexArrayObject.h"
 #include "Platform/OpenGL/VertexBufferObject.h"
 #include "glad/glad.h"
@@ -48,8 +49,26 @@ void Editor::SceneViewWidget::TickEndFrame() { m_level->TickEndFrame(); }
 
 void Editor::SceneViewWidget::TickLogic() { m_level->TickLogic(); }
 
-void Editor::SceneViewWidget::TickRender() { m_level->TickRender(); }
+void Editor::SceneViewWidget::TickRender() {
+  m_level->TickRender();
+  m_shader->Use();
+  m_shader->SetMatrix4f("model", glm::mat4(1.0f));
+  m_shader->SetMatrix4f("view", glm::mat4(1.0f));
+  m_shader->SetMatrix4f("projection", glm::mat4(1.0f));
+  m_test_vao->Bind();
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+  m_test_vao->Unbind();
+}
 
 void Editor::SceneViewWidget::EndPlay() { m_level->EndPlay(); }
 
-void Editor::SceneViewWidget::BeginPlay() { m_level->BeginPlay(); }
+void Editor::SceneViewWidget::BeginPlay() {
+  m_level->BeginPlay();
+  m_test_vao = std::make_shared<VertexArrayObject>();
+  m_test_vbo = std::make_shared<VertexBufferObject>(DataLayoutOfVbo::Position, DataLayoutOfVbo::Normal);
+  m_test_vao->Bind();
+  m_test_vbo->Bind();
+  m_test_vbo->SetData(m_test_vertices, sizeof(m_test_vertices));
+  m_test_vao->AttributeVBO(*m_test_vbo, 6 * sizeof(float));
+  m_shader = std::make_shared<Shader>(COSMOS_SHADER_PATH "/test.vert", COSMOS_SHADER_PATH "/test.frag");
+}

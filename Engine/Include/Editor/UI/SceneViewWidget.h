@@ -56,9 +56,9 @@ public:
   [[nodiscard]] inline Level *GetLevel() const { return m_level; }
 
 private:
-  VertexBufferObject *m_vbo;
-  VertexArrayObject *m_vao;
-  Shader *m_shader;
+  std::shared_ptr<VertexBufferObject> m_test_vbo;
+  std::shared_ptr<VertexArrayObject> m_test_vao;
+  std::shared_ptr<Shader> m_shader;
 
   float m_test_vertices[180] = {
       // positions          // texture Coords

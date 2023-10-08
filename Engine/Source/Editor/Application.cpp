@@ -174,8 +174,10 @@ void Application::OtherInitialize() {
   m_main_scene_view_widget = new Editor::SceneViewWidget("场景");
   AddWidget<Editor::DebugWidget>("调试");
 }
-void Application::BeginPlay() {}
-void Application::EndPlay() {}
+
+void Application::BeginPlay() { m_main_scene_view_widget->BeginPlay(); }
+
+void Application::EndPlay() { m_main_scene_view_widget->EndPlay(); }
 
 template <typename T>
 requires Editor::IsWidget<T>

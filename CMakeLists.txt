@@ -10,6 +10,7 @@ add_executable(Cosmos main.cpp)
 
 set(COSMOS_ROOT ${PROJECT_SOURCE_DIR} CACHE STRING "Cosmos root path")
 set(COSMOS_LOG_PATH ${COSMOS_ROOT}/Log CACHE STRING "Cosmos log directory path")
+set(COSMOS_SHADER_PATH ${COSMOS_ROOT}/Shader CACHE STRING "Cosmos asset directory path")
 
 target_include_directories(Cosmos PUBLIC Engine/Include)
 target_link_libraries(Cosmos PRIVATE CosmosCode)
