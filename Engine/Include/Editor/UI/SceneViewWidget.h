@@ -14,6 +14,8 @@
 
 class FrameBufferObject;
 class Level;
+class VertexBufferObject;
+class VertexArrayObject;
 
 namespace Editor {
 
@@ -47,6 +49,8 @@ private:
 
 public:
   [[nodiscard]] inline Level *GetLevel() const { return m_level; }
+
+private:
 };
 
 } // namespace Editor
