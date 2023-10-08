@@ -15,16 +15,20 @@ class Component;
 class Level;
 
 class GameObject : public Object {
+  friend class Level;
+
 public:
-  GameObject();
+  explicit GameObject(Level *owner);
   ~GameObject();
 
   [[nodiscard]] TransformComponent *GetTransform() const { return m_transform; }
 
-  template <typename T> requires IsComponent<T>
+  template <typename T>
+  requires IsComponent<T>
   T *AddComponent();
 
-  template <typename T> requires IsComponent<T>
+  template <typename T>
+  requires IsComponent<T>
   bool RemoveComponent();
 
   void SetOwnerLevel(Level *level);
@@ -35,6 +39,8 @@ public:
 
 protected:
   void Tick();
+
+  void TickEndFrame();
 
   void BeginPlay();
 

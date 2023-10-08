@@ -17,7 +17,13 @@ public:
   virtual ~Component() = default;
 
 protected:
-  virtual void Tick() {}
+  // Tick顺序: TickLogic->TickRender->TickEndFrame
+  // 渲染时发生的操作
+  virtual void TickRender() {}
+  // 渲染逻辑时的操作
+  virtual void TickLogic() {}
+  // 帧结束时的操作
+  virtual void TickEndFrame() {}
 
   virtual void BeginPlay() {}
 

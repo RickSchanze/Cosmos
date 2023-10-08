@@ -40,3 +40,15 @@ GameObject *Level::GetGameObject(std::string obj_name) {
   }
   return nullptr;
 }
+
+void Level::Tick() {
+  for (auto &game_object : m_game_objects) {
+    game_object->Tick();
+  }
+}
+
+void Level::TickEndFrame() {
+  for (auto &game_object : m_game_objects) {
+    game_object->TickEndFrame();
+  }
+}

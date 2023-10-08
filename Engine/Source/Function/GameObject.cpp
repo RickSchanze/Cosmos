@@ -7,7 +7,7 @@
 #include "Function/Component/TransformComponent.h"
 #include "Function/Level.h"
 
-GameObject::GameObject() { m_transform = new TransformComponent(this); }
+GameObject::GameObject(Level *owner) : m_owner_level(owner) { m_transform = new TransformComponent(this); }
 
 void GameObject::EndPlay() {
   for (auto &component : m_components) {
@@ -23,7 +23,8 @@ void GameObject::BeginPlay() {
 
 void GameObject::Tick() {
   for (auto &component : m_components) {
-    component->Tick();
+    component->TickLogic();
+    component->TickRender();
   }
 }
 
@@ -38,6 +39,12 @@ GameObject::~GameObject() {
 void GameObject::SetOwnerLevel(Level *level) {
   m_owner_level = level;
   m_owner_level->AddGameObject(this);
+}
+
+void GameObject::TickEndFrame() {
+  for (auto &component : m_components) {
+    component->TickEndFrame();
+  }
 }
 
 template <typename T>
