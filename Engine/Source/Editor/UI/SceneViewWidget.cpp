@@ -11,6 +11,8 @@
 #include "Editor/UI/SceneViewWidget.h"
 #include "Function/Level.h"
 #include "Platform/OpenGL/FrameBufferObject.h"
+#include "Platform/OpenGL/VertexArrayObject.h"
+#include "Platform/OpenGL/VertexBufferObject.h"
 #include "glad/glad.h"
 
 Editor::SceneViewWidget::SceneViewWidget(int width, int height, std::string name) : SceneViewWidget(std::move(name)) {}
@@ -47,3 +49,7 @@ void Editor::SceneViewWidget::TickEndFrame() { m_level->TickEndFrame(); }
 void Editor::SceneViewWidget::TickLogic() { m_level->TickLogic(); }
 
 void Editor::SceneViewWidget::TickRender() { m_level->TickRender(); }
+
+void Editor::SceneViewWidget::EndPlay() { m_level->EndPlay(); }
+
+void Editor::SceneViewWidget::BeginPlay() { m_level->BeginPlay(); }

@@ -24,6 +24,8 @@ public:
 
   void Run();
   void MainLoop();
+  void BeginPlay();
+  void EndPlay();
   static Application *GetApplication();
 
 private:

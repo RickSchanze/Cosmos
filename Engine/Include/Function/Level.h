@@ -33,6 +33,10 @@ public:
 
   void TickEndFrame();
 
+  void BeginPlay();
+
+  void EndPlay();
+
 private:
   std::vector<GameObject *> m_game_objects;
 };

@@ -58,3 +58,15 @@ void Level::TickLogic() {
     game_object->TickLogic();
   }
 }
+
+void Level::BeginPlay() {
+  for (auto &game_object : m_game_objects) {
+    game_object->BeginPlay();
+  }
+}
+
+void Level::EndPlay() {
+  for (auto &game_object : m_game_objects) {
+    game_object->EndPlay();
+  }
+}

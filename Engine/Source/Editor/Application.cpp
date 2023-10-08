@@ -14,12 +14,14 @@
 #include "imgui_impl_opengl3.h"
 
 void Application::MainLoop() {
+  BeginPlay();
   while (!glfwWindowShouldClose(m_main_window)) {
     TickLogic();
     TickRender();
     TickEditorUI();
     TickEndFrame();
   }
+  EndPlay();
 }
 
 void Application::Run() {
@@ -172,6 +174,8 @@ void Application::OtherInitialize() {
   m_main_scene_view_widget = new Editor::SceneViewWidget("场景");
   AddWidget<Editor::DebugWidget>("调试");
 }
+void Application::BeginPlay() {}
+void Application::EndPlay() {}
 
 template <typename T>
 requires Editor::IsWidget<T>
