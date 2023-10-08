@@ -9,6 +9,7 @@
 
 #include "Editor/Events/UIEvents.h"
 #include "Editor/UI/SceneViewWidget.h"
+#include "Function/Level.h"
 #include "Platform/OpenGL/FrameBufferObject.h"
 #include "glad/glad.h"
 
@@ -17,10 +18,12 @@ Editor::SceneViewWidget::SceneViewWidget(int width, int height, std::string name
 Editor::SceneViewWidget::SceneViewWidget(std::string name) : m_name(std::move(name)) {
   m_frame_buffer_object = new FrameBufferObject(1920, 1080);
   UIEvents::OnClearColorChange.AddEventListener("GlobalClearColorChanged", this, &SceneViewWidget::SetClearColor);
+  m_level = new Level();
 }
 
 Editor::SceneViewWidget::~SceneViewWidget() {
   delete m_frame_buffer_object;
+  delete m_level;
   UIEvents::OnClearColorChange.RemoveEventListener("GlobalClearColorChanged");
 }
 
@@ -38,3 +41,9 @@ void Editor::SceneViewWidget::BeginRender() {
 }
 
 void Editor::SceneViewWidget::EndRender() { m_frame_buffer_object->Unbind(); }
+
+void Editor::SceneViewWidget::TickEndFrame() { m_level->TickEndFrame(); }
+
+void Editor::SceneViewWidget::TickLogic() { m_level->TickLogic(); }
+
+void Editor::SceneViewWidget::TickRender() { m_level->TickRender(); }

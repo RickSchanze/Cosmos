@@ -7,5 +7,6 @@
 
 #include "ExternalVariables.h"
 #define NAMEOF(x) #x
+#define ASSERT(exp, msg) assert(((void)msg, exp))
 
 #endif // COSMOS_GLOBALDEFINIATION_H

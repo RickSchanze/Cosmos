@@ -98,11 +98,13 @@ Application *Application::GetApplication() {
   return m_application;
 }
 
-void Application::TickLogic() {}
+void Application::TickLogic() { m_main_scene_view_widget->TickLogic(); }
 
 void Application::TickRender() {
   // 主窗口必修绑定帧缓冲不然没办法显示
+  ASSERT(m_main_scene_view_widget != nullptr, "pointer to main scene view widget is nullptr");
   m_main_scene_view_widget->BeginRender();
+  m_main_scene_view_widget->TickRender();
   m_main_scene_view_widget->EndRender();
 }
 
@@ -144,6 +146,8 @@ void Application::TickEditorUI() {
 }
 
 void Application::TickEndFrame() {
+  m_main_scene_view_widget->TickEndFrame();
+
   if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
     GLFWwindow *backup_current_context = glfwGetCurrentContext();
     ImGui::UpdatePlatformWindows();

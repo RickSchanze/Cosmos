@@ -27,7 +27,9 @@ public:
   /** 获得游戏对象指针 */
   GameObject *GetGameObject(std::string obj_name);
 
-  void Tick();
+  void TickLogic();
+
+  void TickRender();
 
   void TickEndFrame();
 

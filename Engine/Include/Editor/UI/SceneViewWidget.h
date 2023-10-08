@@ -11,30 +11,42 @@
 #include "imgui.h"
 
 #include <string>
+
 class FrameBufferObject;
+class Level;
+
 namespace Editor {
 
+// 这是一个比较特殊的Widget，因为需要管理Level里物体的渲染
 class SceneViewWidget : public Widget {
 public:
   explicit SceneViewWidget(std::string name = "SceneViewWidget");
   SceneViewWidget(int width, int height, std::string name = "SceneViewWidget");
   ~SceneViewWidget();
 
-  // 单纯渲染Editor UI
+  // 这里仅渲染GUI
   void Render() override;
 
-  // 这个是为了让Application调用Render用的
-  // 为了能让渲染出的图像显示在这个Widget上，就必须先Bind然后Unbind
+  void TickRender();
+
+  void TickLogic();
+
+  void TickEndFrame();
+
+  inline void SetClearColor(const ImVec4 &color) { m_clear_color = color; }
+
   void BeginRender();
 
   void EndRender();
-
-  inline void SetClearColor(const ImVec4 &color) { m_clear_color = color; }
 
 private:
   FrameBufferObject *m_frame_buffer_object;
   ImVec4 m_clear_color{1.f, 0.55f, 0.60f, 1.0f};
   std::string m_name;
+  Level *m_level;
+
+public:
+  [[nodiscard]] inline Level *GetLevel() const { return m_level; }
 };
 
 } // namespace Editor

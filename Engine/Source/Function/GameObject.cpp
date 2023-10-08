@@ -21,13 +21,6 @@ void GameObject::BeginPlay() {
   }
 }
 
-void GameObject::Tick() {
-  for (auto &component : m_components) {
-    component->TickLogic();
-    component->TickRender();
-  }
-}
-
 GameObject::~GameObject() {
   delete m_transform;
   for (auto &component : m_components) {
@@ -44,6 +37,18 @@ void GameObject::SetOwnerLevel(Level *level) {
 void GameObject::TickEndFrame() {
   for (auto &component : m_components) {
     component->TickEndFrame();
+  }
+}
+
+void GameObject::TickRender() {
+  for (auto &component : m_components) {
+    component->TickRender();
+  }
+}
+
+void GameObject::TickLogic() {
+  for (auto &component : m_components) {
+    component->TickLogic();
   }
 }
 

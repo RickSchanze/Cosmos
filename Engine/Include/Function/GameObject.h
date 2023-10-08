@@ -38,7 +38,9 @@ public:
   inline void SetName(std::string name) { m_name = std::move(name); }
 
 protected:
-  void Tick();
+  void TickRender();
+
+  void TickLogic();
 
   void TickEndFrame();
 
