@@ -46,12 +46,20 @@ Editor::SceneViewWidget::~SceneViewWidget() {
 void Editor::SceneViewWidget::Render() {
   ImGui::Begin(m_name.c_str());
   if (ImGui::IsWindowFocused()) {
-    m_camera_component->SetMouseFocused(true);
+    if (!m_focused) {
+      GameEvent::MouseLockEvent.Dispatch(true);
+      m_camera_component->EnableInput = true;
+      m_focused = true;
+    }
   } else {
-    m_camera_component->SetMouseFocused(false);
+    if (m_focused) {
+      GameEvent::MouseLockEvent.Dispatch(false);
+      m_camera_component->EnableInput = false;
+      m_focused = false;
+      ImGui::SetItemDefaultFocus();
+    }
   }
-  ImGui::Image(reinterpret_cast<ImTextureID>(m_frame_buffer_object->GetFBO()), ImGui::GetContentRegionAvail(),
-               ImVec2(0, 1), ImVec2(1, 0));
+  ImGui::Image(reinterpret_cast<ImTextureID>(m_frame_buffer_object->GetFBO()), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
   ImGui::End();
 }
 
@@ -84,13 +92,14 @@ void Editor::SceneViewWidget::TickRender() {
   m_test_vao->Unbind();
 }
 
-void Editor::SceneViewWidget::EndPlay() { m_level->EndPlay(); }
+void Editor::SceneViewWidget::EndPlay() {
+  m_level->EndPlay();
+}
 
 void Editor::SceneViewWidget::BeginPlay() {
   // 添加摄像机组件
   m_camera_object = new GameObject("MainCamera");
   m_camera_component = m_camera_object->AddComponent<CameraComponent>();
-  m_level->BeginPlay();
   m_test_vao = std::make_shared<VertexArrayObject>();
   m_test_vbo = std::make_shared<VertexBufferObject>(DataLayoutOfVbo::Position, DataLayoutOfVbo::Normal);
   m_test_vao->Bind();
@@ -98,6 +107,7 @@ void Editor::SceneViewWidget::BeginPlay() {
   m_test_vbo->SetData(m_test_vertices, sizeof(m_test_vertices));
   m_test_vao->AttributeVBO(*m_test_vbo, 6 * sizeof(float));
   m_shader = std::make_shared<Shader>(COSMOS_SHADER_PATH "/test.vert", COSMOS_SHADER_PATH "/test.frag");
+  m_level->BeginPlay();
 }
 
 void Editor::SceneViewWidget::TakeInputKeyDown(KeyDownEventParams event) {

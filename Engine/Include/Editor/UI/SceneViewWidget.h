@@ -63,6 +63,7 @@ private:
   Level *m_level;
   GameObject *m_camera_object{};
   CameraComponent *m_camera_component{};
+  bool m_focused;
 
 public:
   [[nodiscard]] inline Level *GetLevel() const { return m_level; }

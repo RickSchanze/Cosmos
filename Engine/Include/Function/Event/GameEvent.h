@@ -17,6 +17,7 @@ public:
   static inline Event<KeyReleasedEventParams> KeyReleasedEvent;
   static inline Event<KeyDownEventParams> KeyDownEvent;
   static inline Event<MouseMoveEventParams> MouseMoveEvent;
+  static inline Event<bool> MouseLockEvent;
 };
 
 #endif // COSMOS_GAMEEVENT_H

@@ -20,7 +20,7 @@ public:
 
 private:
   ImVec4 m_clear_color{0.45f, 0.55f, 0.60f, 1.0f};
-  float m_camera_speed = 2.5f;
+  float m_camera_speed = 0.8f;
   float m_sensitive = 0.1f;
 };
 } // namespace Editor

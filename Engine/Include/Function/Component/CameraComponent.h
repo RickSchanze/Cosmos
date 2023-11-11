@@ -37,7 +37,6 @@ public:
   virtual void TakeInputKeyDown(KeyDownEventParams event) override;
   virtual void TakeInputKeyPressed(KeyPressedEventParams event) override;
   virtual void TakeMouseMoveEvent(MouseMoveEventParams event) override;
-  void SetMouseFocused(bool focused);
 
 private:
   void UpdateCameraVectors();
@@ -47,13 +46,12 @@ private:
   float m_yaw = -90.f;
   float m_pitch = 0.f;
 
-  bool m_mouse_focused = false;
-
 public:
   // 相机参数
   float MovementSpeed = 0.1f;
   float MouseSensitivity = 0.01f;
   float Zoom = 45.0f;
+  bool EnableInput = false;
 };
 
 #endif // COSMOS_CAMERACOMPONENT_H

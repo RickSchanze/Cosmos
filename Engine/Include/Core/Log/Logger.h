@@ -23,8 +23,8 @@ private:
 };
 
 static Logger g_logger{"cosmos-logger", COSMOS_LOG_PATH "/log.log"};
-#define LOG_INFO(...) SPDLOG_LOGGER_INFO(g_logger.GetLogger(), __VA_ARGS__)
-#define LOG_WARN(...) SPDLOG_LOGGER_WARN(g_logger.GetLogger(), __VA_ARGS__)
-#define LOG_ERROR(...) SPDLOG_LOGGER_ERROR(g_logger.GetLogger(), __VA_ARGS__)
+#define LOG_INFO(...) SPDLOG_LOGGER_INFO(g_logger.GetLogger(), __VA_ARGS__);
+#define LOG_WARN(...) SPDLOG_LOGGER_WARN(g_logger.GetLogger(), __VA_ARGS__);
+#define LOG_ERROR(...) SPDLOG_LOGGER_ERROR(g_logger.GetLogger(), __VA_ARGS__);
 
 #endif // COSMOS_LOGGER_H

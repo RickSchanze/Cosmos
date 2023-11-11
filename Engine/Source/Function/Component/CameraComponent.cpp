@@ -8,6 +8,7 @@
 #include "Function/GameObject.h"
 
 #include "Core/Log/Logger.h"
+#include "Function/Event/GameEvent.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 glm::mat4 CameraComponent::GetProjectionMatrix() const {
@@ -34,6 +35,7 @@ void CameraComponent::UpdateCameraVectors() {
 void CameraComponent::TickLogic() { UpdateCameraVectors(); }
 
 void CameraComponent::TakeInputKeyDown(KeyDownEventParams event) {
+  if (!EnableInput) return;
   auto *transform = m_owner_object->GetTransform();
   if (event.Key == KeyCode::W) {
     transform->Position += transform->Forward * MovementSpeed;
@@ -51,7 +53,8 @@ void CameraComponent::TakeInputKeyDown(KeyDownEventParams event) {
 }
 
 void CameraComponent::TakeMouseMoveEvent(MouseMoveEventParams event) {
-  if (m_mouse_focused) {
+  if (!EnableInput) return;
+  {
     float x_offset = event.X;
     float y_offset = event.Y;
     m_yaw += x_offset * MouseSensitivity;
@@ -65,21 +68,10 @@ void CameraComponent::TakeMouseMoveEvent(MouseMoveEventParams event) {
   }
 }
 
-// TODO: 鼠标锁定
-void CameraComponent::SetMouseFocused(bool focused) {
-  m_mouse_focused = focused;
-  if (m_mouse_focused) {
-    ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-  } else {
-    ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-  }
-}
-
 void CameraComponent::TakeInputKeyPressed(KeyPressedEventParams event) {
-  if (m_mouse_focused) {
-    if (event.Key == KeyCode::Escape) {
-      SetMouseFocused(false);
-      LOG_INFO("Esc");
-    }
+  if (!EnableInput) return;
+  if (event.Key == KeyCode::Escape) {
+    GameEvent::MouseLockEvent.Dispatch(false);
+    EnableInput = false;
   }
 }

@@ -20,6 +20,21 @@ class Widget;
 
 class Application {
 public:
+  struct MousePosition {
+    MousePosition() {
+      LastX = 0.f;
+      LastY = 0.f;
+      XOffset = 0.f;
+      YOffset = 0.f;
+      FirstMouse = true;
+    }
+    float LastX;
+    float LastY;
+    float XOffset;
+    float YOffset;
+    bool FirstMouse;
+  };
+
   ~Application();
 
   void Run();
@@ -53,9 +68,14 @@ private:
 
   void TickEndFrame();
 
+  void LockMouse_GLFW(bool lock);
+  std::string GetLockMouseEventHandlerName();
+
   template <typename T>
   requires Editor::IsWidget<T>
   T *AddWidget(std::string name);
+
+  static void MouseMoveCallback_GLFW(GLFWwindow *window, double xpos, double ypos);
 
 private:
   GLFWwindow *m_main_window = nullptr;
@@ -67,8 +87,7 @@ private:
   std::vector<Editor::Widget *> m_widgets;
 
   // 处理鼠标移动事件
-  float m_last_x = 0.0f;
-  float m_last_y = 0.0f;
+  static inline MousePosition m_mouse_position;
 };
 
 #endif // COSMOS_APPLICATION_H
