@@ -1,2 +1,2 @@
-[2023-11-12 01:04:09.598][thread 28304][Shader.cpp,Shader::Shader][info]: Shader program 3 successes!
-[2023-11-12 01:04:09.586][thread 28304][Application.cpp,Application::ImGuiInitialize][info]: OpenGL版本: 3.3.0 NVIDIA 536.99
+[2023-11-12 01:08:47.338][thread 15972][Shader.cpp,Shader::Shader][info]: Shader program 3 successes!
+[2023-11-12 01:08:47.326][thread 15972][Application.cpp,Application::ImGuiInitialize][info]: OpenGL版本: 3.3.0 NVIDIA 536.99
