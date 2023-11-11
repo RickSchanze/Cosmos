@@ -7,9 +7,12 @@
 
 #ifndef COSMOS_SCENEVIEWWIDGET_H
 #define COSMOS_SCENEVIEWWIDGET_H
+#include "Function/Event/KeyEvent.h"
+#include "Function/Event/MouseEvent.h"
 #include "Widget.h"
 #include "imgui.h"
 
+#include <memory>
 #include <string>
 
 class FrameBufferObject;
@@ -17,6 +20,8 @@ class Level;
 class VertexBufferObject;
 class VertexArrayObject;
 class Shader;
+class GameObject;
+class CameraComponent;
 
 namespace Editor {
 
@@ -26,6 +31,11 @@ public:
   explicit SceneViewWidget(std::string name = "SceneViewWidget");
   SceneViewWidget(int width, int height, std::string name = "SceneViewWidget");
   ~SceneViewWidget();
+
+  void TakeInputKeyDown(KeyDownEvent event);
+  void TakeInputKeyUp(KeyReleasedEvent event);
+  void TakeInputKeyPressed(KeyPressedEvent event);
+  void TakeMouseMoveEvent(MouseMoveEvent event);
 
   // 这里仅渲染GUI
   void Render() override;
@@ -51,6 +61,8 @@ private:
   ImVec4 m_clear_color{1.f, 0.55f, 0.60f, 1.0f};
   std::string m_name;
   Level *m_level;
+  GameObject *m_camera_object{};
+  CameraComponent *m_camera_component{};
 
 public:
   [[nodiscard]] inline Level *GetLevel() const { return m_level; }

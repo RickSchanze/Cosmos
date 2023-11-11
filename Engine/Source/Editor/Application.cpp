@@ -9,6 +9,7 @@
 #include "Editor/UI/SceneViewWidget.h"
 #include "Function/Event/GameEvent.h"
 #include "Function/Event/KeyEventHelper.h"
+#include "Global/GlobalDefiniation.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -118,17 +119,23 @@ void Application::TickEditorUI() {
   // 检测键盘事件
   for (int key = ImGuiKey_NamedKey_BEGIN; key < ImGuiKey_COUNT; key++) {
     if (ImGui::IsKeyPressed((ImGuiKey)key, false)) {
-      KeyPressedEvent event{GetKeyCode(key)};
+      KeyPressedEvent event{KeyEventHelper::GetKeyCode(key)};
       GameEvent::OnKeyPressed.Invoke(event);
     }
     if (ImGui::IsKeyReleased((ImGuiKey)key)) {
-      KeyReleasedEvent event{GetKeyCode(key)};
+      KeyReleasedEvent event{KeyEventHelper::GetKeyCode(key)};
       GameEvent::OnKeyReleased.Invoke(event);
     }
     if (ImGui::IsKeyDown((ImGuiKey)key)) {
-      KeyDownEvent event{GetKeyCode(key)};
+      KeyDownEvent event{KeyEventHelper::GetKeyCode(key)};
       GameEvent::OnKeyDown.Invoke(event);
     }
+  }
+  // 检测鼠标是否移动
+  auto mouse_delta = ImGui::GetIO().MouseDelta;
+  if (mouse_delta.x != 0 || mouse_delta.y != 0) {
+    MouseMoveEvent event{mouse_delta.x, mouse_delta.y};
+    GameEvent::OnMouseMove.Invoke(event);
   }
   // OpenGLMainWindow的GUI
   ImGui::Begin("全局信息", nullptr);

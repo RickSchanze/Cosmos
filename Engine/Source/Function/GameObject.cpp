@@ -3,7 +3,6 @@
 //
 
 #include "Function/GameObject.h"
-#include "Function/Component/Component.h"
 #include "Function/Component/TransformComponent.h"
 #include "Function/Level.h"
 
@@ -52,6 +51,40 @@ void GameObject::TickLogic() {
   }
 }
 
+GameObject::GameObject(Level *owner, std::string name) {
+  m_owner_level = owner;
+  m_name = std::move(name);
+  m_transform = new TransformComponent(this);
+}
+
+GameObject::GameObject(std::string name) {
+  m_name = std::move(name);
+  m_transform = new TransformComponent(this);
+}
+
+void GameObject::TakeInputKeyUp(KeyReleasedEvent event) {
+  for (auto &component : m_components) {
+    component->TakeInputKeyUp(event);
+  }
+}
+
+void GameObject::TakeInputKeyPressed(KeyPressedEvent event) {
+  for (auto &component : m_components) {
+    component->TakeInputKeyPressed(event);
+  }
+}
+
+void GameObject::TakeInputKeyDown(KeyDownEvent event) {
+  for (auto &component : m_components) {
+    component->TakeInputKeyDown(event);
+  }
+}
+void GameObject::TakeMouseMoveEvent(MouseMoveEvent event) {
+  for (auto &component : m_components) {
+    component->TakeMouseMoveEvent(event);
+  }
+}
+
 template <typename T>
 requires IsComponent<T>
 bool GameObject::RemoveComponent() {
@@ -64,13 +97,4 @@ bool GameObject::RemoveComponent() {
     }
   }
   return false;
-}
-
-template <typename T>
-requires IsComponent<T>
-T *GameObject::AddComponent() {
-  T *component = new T(this);
-  component->BeginPlay();
-  m_components.push_back(component);
-  return component;
 }

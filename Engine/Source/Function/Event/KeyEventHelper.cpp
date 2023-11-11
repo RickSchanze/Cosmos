@@ -8,7 +8,7 @@
 #include "Function/Event/KeyEventHelper.h"
 #include "imgui.h"
 
-KeyCode GetKeyCode(int key) {
+KeyCode KeyEventHelper::GetKeyCode(int key) {
   KeyCode code = KeyCode::Unknown;
   switch (key) {
   case ImGuiKey_A:
@@ -95,11 +95,17 @@ KeyCode GetKeyCode(int key) {
   case ImGuiKey_Space:
     code = KeyCode::Space;
     break;
+  case ImGuiKey_MouseLeft:
+    code = KeyCode::MouseLeft;
+    break;
+  case ImGuiKey_MouseRight:
+    code = KeyCode::MouseRight;
+    break;
   }
   return code;
 }
 
-std::string GetKeyString(KeyCode code) {
+std::string KeyEventHelper::GetKeyString(KeyCode code) {
   std::string str = "Unknown";
   switch (code) {
   case KeyCode::A:
@@ -185,6 +191,12 @@ std::string GetKeyString(KeyCode code) {
     break;
   case KeyCode::Space:
     str = "Space";
+    break;
+  case KeyCode::MouseLeft:
+    str = "MouseLeft";
+    break;
+  case KeyCode::MouseRight:
+    str = "MouseRight";
     break;
   case KeyCode::Unknown:
     str = "Unknown";

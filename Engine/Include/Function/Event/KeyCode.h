@@ -37,6 +37,8 @@ enum class KeyCode {
   Z,
   Escape,
   Space,
+  MouseLeft,
+  MouseRight,
   Unknown
 };
 #endif // COSMOS_KEYCODE_H

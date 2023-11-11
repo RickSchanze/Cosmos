@@ -5,6 +5,8 @@
 #ifndef COSMOS_LEVEL_H
 #define COSMOS_LEVEL_H
 #include "Concepts.h"
+#include "Function/Event/KeyEvent.h"
+#include "Function/Event/MouseEvent.h"
 
 #include <string>
 #include <vector>
@@ -13,6 +15,8 @@ class GameObject;
 
 class Level {
 public:
+  ~Level();
+
   std::vector<GameObject *> &GetGameObjects() { return m_game_objects; }
 
   /** 增加一个游戏对象 */
@@ -36,6 +40,15 @@ public:
   void BeginPlay();
 
   void EndPlay();
+
+  /**
+   * 输入转发给GameObject然后转发给Component处理
+   * @param event
+   */
+  void TakeInputKeyDown(KeyDownEvent event);
+  void TakeInputKeyUp(KeyReleasedEvent event);
+  void TakeInputKeyPressed(KeyPressedEvent event);
+  void TakeMouseMoveEvent(MouseMoveEvent event);
 
 private:
   std::vector<GameObject *> m_game_objects;

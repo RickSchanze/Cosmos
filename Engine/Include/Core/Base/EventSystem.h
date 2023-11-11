@@ -17,9 +17,6 @@
 #include <string>
 #include <utility>
 
-#include "Core/Log/Logger.h"
-#include "Global/GlobalDefiniation.h"
-
 template <typename... Args>
 class Delegate {
 public:

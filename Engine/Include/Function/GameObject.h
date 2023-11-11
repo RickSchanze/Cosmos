@@ -6,6 +6,8 @@
 #define COSMOS_GAMEOBJECT_H
 #include "Concepts.h"
 #include "Core/Base/Object.h"
+#include "Function/Event/KeyEvent.h"
+#include "Function/Event/MouseEvent.h"
 
 #include <string>
 #include <vector>
@@ -14,18 +16,36 @@ class TransformComponent;
 class Component;
 class Level;
 
+namespace Editor {
+class SceneViewWidget;
+}
+
 class GameObject : public Object {
   friend class Level;
+  friend class Editor::SceneViewWidget;
 
 public:
   explicit GameObject(Level *owner);
+  explicit GameObject(Level *owner, std::string name);
+  /**
+   * 一定要将GameObject添加到Level中
+   * 否则不会Tick这个Object
+   * 还可能内存泄露
+   * @param name
+   */
+  explicit GameObject(std::string name);
   ~GameObject();
 
   [[nodiscard]] TransformComponent *GetTransform() const { return m_transform; }
 
   template <typename T>
   requires IsComponent<T>
-  T *AddComponent();
+  T *AddComponent() {
+    T *component = new T(this);
+    component->BeginPlay();
+    m_components.push_back(component);
+    return component;
+  }
 
   template <typename T>
   requires IsComponent<T>
@@ -47,6 +67,15 @@ protected:
   void BeginPlay();
 
   void EndPlay();
+
+  /**
+   * 输入事件 转发给所有组件处理
+   * @param event
+   */
+  void TakeInputKeyDown(KeyDownEvent event);
+  void TakeInputKeyUp(KeyReleasedEvent event);
+  void TakeInputKeyPressed(KeyPressedEvent event);
+  void TakeMouseMoveEvent(MouseMoveEvent event);
 
 private:
   TransformComponent *m_transform;

@@ -18,6 +18,10 @@ enum class CameraMovement {
   Down      // 向下
 };
 
+/**
+ * Camera是个抽象的概念,本质上就是对物体做一系列变换
+ * 从而将物体的坐标系变换到观察者的坐标系
+ */
 class CameraComponent : public Component {
 public:
   explicit CameraComponent(GameObject *owner) : Component(owner) {}
@@ -27,6 +31,11 @@ public:
 
   /** 获取投影矩阵 */
   [[nodiscard]] glm::mat4 GetProjectionMatrix() const;
+
+protected:
+  virtual void TickLogic() override;
+  virtual void TakeInputKeyDown(KeyDownEvent event) override;
+  virtual void TakeMouseMoveEvent(MouseMoveEvent event) override;
 
 private:
   void UpdateCameraVectors();

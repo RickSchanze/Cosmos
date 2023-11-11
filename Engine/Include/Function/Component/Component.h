@@ -5,6 +5,8 @@
 #ifndef COSMOS_COMPONENT_H
 #define COSMOS_COMPONENT_H
 #include "Core/Base/Object.h"
+#include "Function/Event/KeyEvent.h"
+#include "Function/Event/MouseEvent.h"
 
 class GameObject;
 
@@ -28,6 +30,11 @@ protected:
   virtual void BeginPlay() {}
 
   virtual void EndPlay() {}
+
+  virtual void TakeInputKeyDown(KeyDownEvent event) {}
+  virtual void TakeInputKeyUp(KeyReleasedEvent event) {}
+  virtual void TakeInputKeyPressed(KeyPressedEvent event) {}
+  virtual void TakeMouseMoveEvent(MouseMoveEvent event) {}
 
 public:
   GameObject *GetOwner() const { return m_owner_object; }

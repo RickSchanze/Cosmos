@@ -7,6 +7,7 @@
 #include "Function/Component/TransformComponent.h"
 #include "Function/GameObject.h"
 
+#include "Core/Log/Logger.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 glm::mat4 CameraComponent::GetProjectionMatrix() const {
@@ -28,4 +29,35 @@ void CameraComponent::UpdateCameraVectors() {
   transform->Forward = glm::normalize(front);
   transform->Right = glm::normalize(glm::cross(transform->Forward, Constant::Vec3::Up));
   transform->Up = glm::normalize(glm::cross(transform->Right, transform->Forward));
+}
+
+void CameraComponent::TickLogic() { UpdateCameraVectors(); }
+
+void CameraComponent::TakeInputKeyDown(KeyDownEvent event) {
+  auto *transform = m_owner_object->GetTransform();
+  if (event.Key == KeyCode::W) {
+    transform->Position += transform->Forward * MovementSpeed;
+  }
+  if (event.Key == KeyCode::S) {
+    transform->Position -= transform->Forward * MovementSpeed;
+  }
+  // A和D可能有些问题 可能需要叉乘
+  if (event.Key == KeyCode::A) {
+    transform->Position -= transform->Right * MovementSpeed;
+  }
+  if (event.Key == KeyCode::D) {
+    transform->Position += transform->Right * MovementSpeed;
+  }
+}
+void CameraComponent::TakeMouseMoveEvent(MouseMoveEvent event) {
+  float x_offset = event.X;
+  float y_offset = event.Y;
+  m_yaw += x_offset * MouseSensitivity;
+  m_pitch += y_offset * MouseSensitivity;
+  if (m_pitch > 89.0f) {
+    m_pitch = 89.0f;
+  }
+  if (m_pitch < -89.0f) {
+    m_pitch = -89.0f;
+  }
 }

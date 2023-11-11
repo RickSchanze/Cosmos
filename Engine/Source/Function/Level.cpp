@@ -6,7 +6,7 @@
 #include "Function/GameObject.h"
 
 void Level::AddGameObject(GameObject *game_object) {
-  if (std::find(m_game_objects.begin(), m_game_objects.end(), game_object) == m_game_objects.end())
+  if (std::find(m_game_objects.begin(), m_game_objects.end(), game_object) != m_game_objects.end())
     return;
   m_game_objects.push_back(game_object);
 }
@@ -68,5 +68,30 @@ void Level::BeginPlay() {
 void Level::EndPlay() {
   for (auto &game_object : m_game_objects) {
     game_object->EndPlay();
+  }
+}
+Level::~Level() {
+  for (auto &game_object : m_game_objects) {
+    delete game_object;
+  }
+}
+void Level::TakeInputKeyDown(KeyDownEvent event) {
+  for (auto &game_object : m_game_objects) {
+    game_object->TakeInputKeyDown(event);
+  }
+}
+void Level::TakeInputKeyUp(KeyReleasedEvent event) {
+  for (auto &game_object : m_game_objects) {
+    game_object->TakeInputKeyUp(event);
+  }
+}
+void Level::TakeInputKeyPressed(KeyPressedEvent event) {
+  for (auto &game_object : m_game_objects) {
+    game_object->TakeInputKeyPressed(event);
+  }
+}
+void Level::TakeMouseMoveEvent(MouseMoveEvent event) {
+  for (auto &game_object : m_game_objects) {
+    game_object->TakeMouseMoveEvent(event);
   }
 }

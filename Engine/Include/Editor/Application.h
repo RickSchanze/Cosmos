@@ -63,6 +63,10 @@ private:
   int m_height{1080};
   Editor::SceneViewWidget *m_main_scene_view_widget = nullptr;
   std::vector<Editor::Widget *> m_widgets;
+
+  // 处理鼠标移动事件
+  float m_last_x = 0.0f;
+  float m_last_y = 0.0f;
 };
 
 #endif // COSMOS_APPLICATION_H

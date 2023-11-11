@@ -6,16 +6,28 @@
 #define COSMOS_MATHTYPES_H
 #include "glm/glm.hpp"
 #include "imgui.h"
+#include <string>
 
-static glm::vec3 ToVec3(const ImVec4 &vec4) { return {vec4.x, vec4.y, vec4.z}; }
+class VecHelper {
+public:
+  static glm::vec3 ToVec3(const ImVec4 &vec4) { return {vec4.x, vec4.y, vec4.z}; }
 
-static glm::vec2 ToVec2(const ImVec2 &vec2) { return {vec2.x, vec2.y}; }
+  static glm::vec2 ToVec2(const ImVec2 &vec2) { return {vec2.x, vec2.y}; }
 
-static ImVec4 ToImVec4(const glm::vec3 &vec3) { return {vec3.x, vec3.y, vec3.z, 1.f}; }
+  static ImVec4 ToImVec4(const glm::vec3 &vec3) { return {vec3.x, vec3.y, vec3.z, 1.f}; }
 
-static ImVec4 ToImVec4(const glm::vec4 &vec4) { return {vec4.x, vec4.y, vec4.z, vec4.w}; }
+  static ImVec4 ToImVec4(const glm::vec4 &vec4) { return {vec4.x, vec4.y, vec4.z, vec4.w}; }
 
-static ImVec2 ToImVec2(const glm::vec2 &vec2) { return {vec2.x, vec2.y}; }
+  static ImVec2 ToImVec2(const glm::vec2 &vec2) { return {vec2.x, vec2.y}; }
+
+  static std::string ToString(const glm::vec2 &vec2) {
+    return "(" + std::to_string(vec2.x) + ", " + std::to_string(vec2.y) + ")";
+  }
+
+  static std::string ToString(const glm::vec3 &vec3) {
+    return "(" + std::to_string(vec3.x) + ", " + std::to_string(vec3.y) + ", " + std::to_string(vec3.z) + ")";
+  }
+};
 
 namespace Constant {
 class Vec3 {
