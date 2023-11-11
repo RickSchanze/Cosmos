@@ -75,22 +75,22 @@ Level::~Level() {
     delete game_object;
   }
 }
-void Level::TakeInputKeyDown(KeyDownEvent event) {
+void Level::TakeInputKeyDown(KeyDownEventParams event) {
   for (auto &game_object : m_game_objects) {
     game_object->TakeInputKeyDown(event);
   }
 }
-void Level::TakeInputKeyUp(KeyReleasedEvent event) {
+void Level::TakeInputKeyUp(KeyReleasedEventParams event) {
   for (auto &game_object : m_game_objects) {
     game_object->TakeInputKeyUp(event);
   }
 }
-void Level::TakeInputKeyPressed(KeyPressedEvent event) {
+void Level::TakeInputKeyPressed(KeyPressedEventParams event) {
   for (auto &game_object : m_game_objects) {
     game_object->TakeInputKeyPressed(event);
   }
 }
-void Level::TakeMouseMoveEvent(MouseMoveEvent event) {
+void Level::TakeMouseMoveEvent(MouseMoveEventParams event) {
   for (auto &game_object : m_game_objects) {
     game_object->TakeMouseMoveEvent(event);
   }

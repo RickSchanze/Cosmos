@@ -13,10 +13,10 @@
 /**
  * 键盘按下事件，只在按下时触发一次
  */
-struct KeyPressedEvent : public Event<KeyCode> {
+struct KeyPressedEventParams {
 public:
-  explicit KeyPressedEvent(KeyCode key_code) : Event(), Key(key_code) {}
-  KeyPressedEvent(const KeyPressedEvent &event) { Key = event.Key; };
+  explicit KeyPressedEventParams(KeyCode key_code) :Key(key_code) {}
+  KeyPressedEventParams(const KeyPressedEventParams &event) { Key = event.Key; };
 
   KeyCode Key;
 };
@@ -24,10 +24,10 @@ public:
 /**
  * 键盘释放事件，只在释放时触发一次
  */
-struct KeyReleasedEvent : public Event<KeyCode> {
+struct KeyReleasedEventParams {
 public:
-  explicit KeyReleasedEvent(KeyCode key_code) : Event(), Key(key_code) {}
-  KeyReleasedEvent(const KeyReleasedEvent &event) { Key = event.Key; };
+  explicit KeyReleasedEventParams(KeyCode key_code): Key(key_code) {}
+  KeyReleasedEventParams(const KeyReleasedEventParams &event) { Key = event.Key; };
 
   KeyCode Key;
 };
@@ -35,10 +35,10 @@ public:
 /**
  * 键盘按下事件，只要按下就会触发
  */
-struct KeyDownEvent : public Event<KeyCode> {
+struct KeyDownEventParams : public Event<KeyCode> {
 public:
-  explicit KeyDownEvent(KeyCode key_code) : Event(), Key(key_code) {}
-  KeyDownEvent(const KeyDownEvent &event) { Key = event.Key; };
+  explicit KeyDownEventParams(KeyCode key_code) : Event(), Key(key_code) {}
+  KeyDownEventParams(const KeyDownEventParams &event) { Key = event.Key; };
 
   KeyCode Key;
 };

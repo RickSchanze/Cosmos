@@ -72,10 +72,10 @@ protected:
    * 输入事件 转发给所有组件处理
    * @param event
    */
-  void TakeInputKeyDown(KeyDownEvent event);
-  void TakeInputKeyUp(KeyReleasedEvent event);
-  void TakeInputKeyPressed(KeyPressedEvent event);
-  void TakeMouseMoveEvent(MouseMoveEvent event);
+  void TakeInputKeyDown(KeyDownEventParams event);
+  void TakeInputKeyUp(KeyReleasedEventParams event);
+  void TakeInputKeyPressed(KeyPressedEventParams event);
+  void TakeMouseMoveEvent(MouseMoveEventParams event);
 
 private:
   TransformComponent *m_transform;

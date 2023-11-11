@@ -92,9 +92,14 @@ public:
     }
   }
 
-  // 使用模版和完美转发
+  /**
+   * 分发当前事件
+   * 将会调用绑定到此事件上的所有函数
+   * @tparam InvokeArgs
+   * @param args
+   */
   template <typename... InvokeArgs>
-  void Invoke(InvokeArgs &&...args) {
+  void Dispatch(InvokeArgs &&...args) {
     for (auto &listener : m_event_listeners) {
       listener(std::forward<InvokeArgs...>(args...));
     }

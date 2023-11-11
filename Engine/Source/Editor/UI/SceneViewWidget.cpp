@@ -26,10 +26,10 @@ Editor::SceneViewWidget::SceneViewWidget(int width, int height, std::string name
 Editor::SceneViewWidget::SceneViewWidget(std::string name) : m_name(std::move(name)) {
   m_frame_buffer_object = new FrameBufferObject(1920, 1080);
   UIEvents::OnClearColorChange.AddEventListener("GlobalClearColorChanged", this, &SceneViewWidget::SetClearColor);
-  GameEvent::OnKeyDown.AddEventListener("SceneViewWidget_KeyDown", this, &SceneViewWidget::TakeInputKeyDown);
-  GameEvent::OnKeyReleased.AddEventListener("SceneViewWidget_KeyReleased", this, &SceneViewWidget::TakeInputKeyUp);
-  GameEvent::OnKeyPressed.AddEventListener("SceneViewWidget_KeyPressed", this, &SceneViewWidget::TakeInputKeyPressed);
-  GameEvent::OnMouseMove.AddEventListener("SceneViewWidget_MouseMove", this, &SceneViewWidget::TakeMouseMoveEvent);
+  GameEvent::KeyDownEvent.AddEventListener("SceneViewWidget_KeyDown", this, &SceneViewWidget::TakeInputKeyDown);
+  GameEvent::KeyReleasedEvent.AddEventListener("SceneViewWidget_KeyReleased", this, &SceneViewWidget::TakeInputKeyUp);
+  GameEvent::KeyPressedEvent.AddEventListener("SceneViewWidget_KeyPressed", this, &SceneViewWidget::TakeInputKeyPressed);
+  GameEvent::MouseMoveEvent.AddEventListener("SceneViewWidget_MouseMove", this, &SceneViewWidget::TakeMouseMoveEvent);
   m_level = new Level();
 }
 
@@ -37,14 +37,19 @@ Editor::SceneViewWidget::~SceneViewWidget() {
   delete m_frame_buffer_object;
   delete m_level;
   UIEvents::OnClearColorChange.RemoveEventListener("GlobalClearColorChanged");
-  GameEvent::OnKeyDown.RemoveEventListener("SceneViewWidget_KeyDown");
-  GameEvent::OnKeyReleased.RemoveEventListener("SceneViewWidget_KeyReleased");
-  GameEvent::OnKeyPressed.RemoveEventListener("SceneViewWidget_KeyPressed");
-  GameEvent::OnMouseMove.RemoveEventListener("SceneViewWidget_MouseMove");
+  GameEvent::KeyDownEvent.RemoveEventListener("SceneViewWidget_KeyDown");
+  GameEvent::KeyReleasedEvent.RemoveEventListener("SceneViewWidget_KeyReleased");
+  GameEvent::KeyPressedEvent.RemoveEventListener("SceneViewWidget_KeyPressed");
+  GameEvent::MouseMoveEvent.RemoveEventListener("SceneViewWidget_MouseMove");
 }
 
 void Editor::SceneViewWidget::Render() {
   ImGui::Begin(m_name.c_str());
+  if (ImGui::IsWindowFocused()) {
+    m_camera_component->SetMouseFocused(true);
+  } else {
+    m_camera_component->SetMouseFocused(false);
+  }
   ImGui::Image(reinterpret_cast<ImTextureID>(m_frame_buffer_object->GetFBO()), ImGui::GetContentRegionAvail(),
                ImVec2(0, 1), ImVec2(1, 0));
   ImGui::End();
@@ -95,20 +100,20 @@ void Editor::SceneViewWidget::BeginPlay() {
   m_shader = std::make_shared<Shader>(COSMOS_SHADER_PATH "/test.vert", COSMOS_SHADER_PATH "/test.frag");
 }
 
-void Editor::SceneViewWidget::TakeInputKeyDown(KeyDownEvent event) {
+void Editor::SceneViewWidget::TakeInputKeyDown(KeyDownEventParams event) {
   m_camera_object->TakeInputKeyDown(event);
   m_level->TakeInputKeyDown(event);
 }
 
-void Editor::SceneViewWidget::TakeInputKeyUp(KeyReleasedEvent event) {
+void Editor::SceneViewWidget::TakeInputKeyUp(KeyReleasedEventParams event) {
   m_camera_object->TakeInputKeyUp(event);
   m_level->TakeInputKeyUp(event);
 }
-void Editor::SceneViewWidget::TakeInputKeyPressed(KeyPressedEvent event) {
+void Editor::SceneViewWidget::TakeInputKeyPressed(KeyPressedEventParams event) {
   m_camera_object->TakeInputKeyPressed(event);
   m_level->TakeInputKeyPressed(event);
 }
-void Editor::SceneViewWidget::TakeMouseMoveEvent(MouseMoveEvent event) {
+void Editor::SceneViewWidget::TakeMouseMoveEvent(MouseMoveEventParams event) {
   m_camera_object->TakeMouseMoveEvent(event);
   m_level->TakeMouseMoveEvent(event);
 }

@@ -32,10 +32,10 @@ public:
   SceneViewWidget(int width, int height, std::string name = "SceneViewWidget");
   ~SceneViewWidget();
 
-  void TakeInputKeyDown(KeyDownEvent event);
-  void TakeInputKeyUp(KeyReleasedEvent event);
-  void TakeInputKeyPressed(KeyPressedEvent event);
-  void TakeMouseMoveEvent(MouseMoveEvent event);
+  void TakeInputKeyDown(KeyDownEventParams event);
+  void TakeInputKeyUp(KeyReleasedEventParams event);
+  void TakeInputKeyPressed(KeyPressedEventParams event);
+  void TakeMouseMoveEvent(MouseMoveEventParams event);
 
   // 这里仅渲染GUI
   void Render() override;
@@ -66,6 +66,7 @@ private:
 
 public:
   [[nodiscard]] inline Level *GetLevel() const { return m_level; }
+  [[nodiscard]] inline CameraComponent* GetMainCamera() const { return m_camera_component; }
 
 private:
   std::shared_ptr<VertexBufferObject> m_test_vbo;

@@ -28,6 +28,8 @@ public:
   void EndPlay();
   static Application *GetApplication();
 
+  inline Editor::SceneViewWidget* GetMainSceneViewWidget() { return m_main_scene_view_widget; }
+
 private:
   Application();
 

@@ -13,10 +13,10 @@
 
 class GameEvent {
 public:
-  static inline Event<KeyPressedEvent> OnKeyPressed;
-  static inline Event<KeyReleasedEvent> OnKeyReleased;
-  static inline Event<KeyDownEvent> OnKeyDown;
-  static inline Event<MouseMoveEvent> OnMouseMove;
+  static inline Event<KeyPressedEventParams> KeyPressedEvent;
+  static inline Event<KeyReleasedEventParams> KeyReleasedEvent;
+  static inline Event<KeyDownEventParams> KeyDownEvent;
+  static inline Event<MouseMoveEventParams> MouseMoveEvent;
 };
 
 #endif // COSMOS_GAMEEVENT_H

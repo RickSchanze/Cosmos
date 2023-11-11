@@ -33,7 +33,7 @@ void CameraComponent::UpdateCameraVectors() {
 
 void CameraComponent::TickLogic() { UpdateCameraVectors(); }
 
-void CameraComponent::TakeInputKeyDown(KeyDownEvent event) {
+void CameraComponent::TakeInputKeyDown(KeyDownEventParams event) {
   auto *transform = m_owner_object->GetTransform();
   if (event.Key == KeyCode::W) {
     transform->Position += transform->Forward * MovementSpeed;
@@ -49,15 +49,37 @@ void CameraComponent::TakeInputKeyDown(KeyDownEvent event) {
     transform->Position += transform->Right * MovementSpeed;
   }
 }
-void CameraComponent::TakeMouseMoveEvent(MouseMoveEvent event) {
-  float x_offset = event.X;
-  float y_offset = event.Y;
-  m_yaw += x_offset * MouseSensitivity;
-  m_pitch += y_offset * MouseSensitivity;
-  if (m_pitch > 89.0f) {
-    m_pitch = 89.0f;
+
+void CameraComponent::TakeMouseMoveEvent(MouseMoveEventParams event) {
+  if (m_mouse_focused) {
+    float x_offset = event.X;
+    float y_offset = event.Y;
+    m_yaw += x_offset * MouseSensitivity;
+    m_pitch += -y_offset * MouseSensitivity;
+    if (m_pitch > 89.0f) {
+      m_pitch = 89.0f;
+    }
+    if (m_pitch < -89.0f) {
+      m_pitch = -89.0f;
+    }
   }
-  if (m_pitch < -89.0f) {
-    m_pitch = -89.0f;
+}
+
+// TODO: 鼠标锁定
+void CameraComponent::SetMouseFocused(bool focused) {
+  m_mouse_focused = focused;
+  if (m_mouse_focused) {
+    ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+  } else {
+    ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+  }
+}
+
+void CameraComponent::TakeInputKeyPressed(KeyPressedEventParams event) {
+  if (m_mouse_focused) {
+    if (event.Key == KeyCode::Escape) {
+      SetMouseFocused(false);
+      LOG_INFO("Esc");
+    }
   }
 }

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-set(CMAKE_TOOLCHAIN_FILE C:\\Users\\Echo\\Documents\\BaiduSyncdisk\\Work\\Projects\\Cosmos\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake)
+set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
 project(Cosmos)
 if (MSVC)
     add_compile_options("/source-charset:utf-8" "/execution-charset:utf-8")

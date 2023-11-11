@@ -62,24 +62,24 @@ GameObject::GameObject(std::string name) {
   m_transform = new TransformComponent(this);
 }
 
-void GameObject::TakeInputKeyUp(KeyReleasedEvent event) {
+void GameObject::TakeInputKeyUp(KeyReleasedEventParams event) {
   for (auto &component : m_components) {
     component->TakeInputKeyUp(event);
   }
 }
 
-void GameObject::TakeInputKeyPressed(KeyPressedEvent event) {
+void GameObject::TakeInputKeyPressed(KeyPressedEventParams event) {
   for (auto &component : m_components) {
     component->TakeInputKeyPressed(event);
   }
 }
 
-void GameObject::TakeInputKeyDown(KeyDownEvent event) {
+void GameObject::TakeInputKeyDown(KeyDownEventParams event) {
   for (auto &component : m_components) {
     component->TakeInputKeyDown(event);
   }
 }
-void GameObject::TakeMouseMoveEvent(MouseMoveEvent event) {
+void GameObject::TakeMouseMoveEvent(MouseMoveEventParams event) {
   for (auto &component : m_components) {
     component->TakeMouseMoveEvent(event);
   }

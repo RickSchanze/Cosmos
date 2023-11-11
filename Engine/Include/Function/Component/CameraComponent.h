@@ -32,10 +32,12 @@ public:
   /** 获取投影矩阵 */
   [[nodiscard]] glm::mat4 GetProjectionMatrix() const;
 
-protected:
+public:
   virtual void TickLogic() override;
-  virtual void TakeInputKeyDown(KeyDownEvent event) override;
-  virtual void TakeMouseMoveEvent(MouseMoveEvent event) override;
+  virtual void TakeInputKeyDown(KeyDownEventParams event) override;
+  virtual void TakeInputKeyPressed(KeyPressedEventParams event) override;
+  virtual void TakeMouseMoveEvent(MouseMoveEventParams event) override;
+  void SetMouseFocused(bool focused);
 
 private:
   void UpdateCameraVectors();
@@ -45,10 +47,12 @@ private:
   float m_yaw = -90.f;
   float m_pitch = 0.f;
 
+  bool m_mouse_focused = false;
+
 public:
   // 相机参数
-  float MovementSpeed = 2.5f;
-  float MouseSensitivity = 0.1f;
+  float MovementSpeed = 0.1f;
+  float MouseSensitivity = 0.01f;
   float Zoom = 45.0f;
 };
 

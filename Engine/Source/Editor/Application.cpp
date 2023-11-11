@@ -119,23 +119,23 @@ void Application::TickEditorUI() {
   // 检测键盘事件
   for (int key = ImGuiKey_NamedKey_BEGIN; key < ImGuiKey_COUNT; key++) {
     if (ImGui::IsKeyPressed((ImGuiKey)key, false)) {
-      KeyPressedEvent event{KeyEventHelper::GetKeyCode(key)};
-      GameEvent::OnKeyPressed.Invoke(event);
+      KeyPressedEventParams event{KeyEventHelper::GetKeyCode(key)};
+      GameEvent::KeyPressedEvent.Dispatch(event);
     }
     if (ImGui::IsKeyReleased((ImGuiKey)key)) {
-      KeyReleasedEvent event{KeyEventHelper::GetKeyCode(key)};
-      GameEvent::OnKeyReleased.Invoke(event);
+      KeyReleasedEventParams event{KeyEventHelper::GetKeyCode(key)};
+      GameEvent::KeyReleasedEvent.Dispatch(event);
     }
     if (ImGui::IsKeyDown((ImGuiKey)key)) {
-      KeyDownEvent event{KeyEventHelper::GetKeyCode(key)};
-      GameEvent::OnKeyDown.Invoke(event);
+      KeyDownEventParams event{KeyEventHelper::GetKeyCode(key)};
+      GameEvent::KeyDownEvent.Dispatch(event);
     }
   }
   // 检测鼠标是否移动
   auto mouse_delta = ImGui::GetIO().MouseDelta;
   if (mouse_delta.x != 0 || mouse_delta.y != 0) {
-    MouseMoveEvent event{mouse_delta.x, mouse_delta.y};
-    GameEvent::OnMouseMove.Invoke(event);
+    MouseMoveEventParams event{mouse_delta.x, mouse_delta.y};
+    GameEvent::MouseMoveEvent.Dispatch(event);
   }
   // OpenGLMainWindow的GUI
   ImGui::Begin("全局信息", nullptr);

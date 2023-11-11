@@ -10,13 +10,13 @@
 #include "Core/Base/EventSystem.h"
 #include "KeyCode.h"
 
-struct MouseMoveEvent : public Event<float, float> {
-  MouseMoveEvent(float x, float y) : X(x), Y(y) {}
-  MouseMoveEvent(const MouseMoveEvent &event) {
+struct MouseMoveEventParams {
+  MouseMoveEventParams(float x, float y) : X(x), Y(y) {}
+  MouseMoveEventParams(const MouseMoveEventParams &event) {
     X = event.X;
     Y = event.Y;
   }
-  MouseMoveEvent(double x, double y) : X(x), Y(y) {}
+  MouseMoveEventParams(double x, double y) : X(x), Y(y) {}
 
   float X;
   float Y;

@@ -1,4 +1,4 @@
 BasedOnStyle: LLVM
-ColumnLimit: 120
+ColumnLimit: 150
 RequiresClausePosition: WithPreceding
 AlwaysBreakTemplateDeclarations: Yes

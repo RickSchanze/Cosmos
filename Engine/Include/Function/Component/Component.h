@@ -18,7 +18,7 @@ public:
 
   virtual ~Component() = default;
 
-protected:
+public:
   // Tick顺序: TickLogic->TickRender->TickEndFrame
   // 渲染时发生的操作
   virtual void TickRender() {}
@@ -31,10 +31,10 @@ protected:
 
   virtual void EndPlay() {}
 
-  virtual void TakeInputKeyDown(KeyDownEvent event) {}
-  virtual void TakeInputKeyUp(KeyReleasedEvent event) {}
-  virtual void TakeInputKeyPressed(KeyPressedEvent event) {}
-  virtual void TakeMouseMoveEvent(MouseMoveEvent event) {}
+  virtual void TakeInputKeyDown(KeyDownEventParams event) {}
+  virtual void TakeInputKeyUp(KeyReleasedEventParams event) {}
+  virtual void TakeInputKeyPressed(KeyPressedEventParams event) {}
+  virtual void TakeMouseMoveEvent(MouseMoveEventParams event) {}
 
 public:
   GameObject *GetOwner() const { return m_owner_object; }

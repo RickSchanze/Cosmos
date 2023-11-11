@@ -45,10 +45,10 @@ public:
    * 输入转发给GameObject然后转发给Component处理
    * @param event
    */
-  void TakeInputKeyDown(KeyDownEvent event);
-  void TakeInputKeyUp(KeyReleasedEvent event);
-  void TakeInputKeyPressed(KeyPressedEvent event);
-  void TakeMouseMoveEvent(MouseMoveEvent event);
+  void TakeInputKeyDown(KeyDownEventParams event);
+  void TakeInputKeyUp(KeyReleasedEventParams event);
+  void TakeInputKeyPressed(KeyPressedEventParams event);
+  void TakeMouseMoveEvent(MouseMoveEventParams event);
 
 private:
   std::vector<GameObject *> m_game_objects;
