@@ -22,7 +22,11 @@ public:
   // 这里使用了模版和完美转发
   template <class... InvokeArgs>
   void operator()(InvokeArgs &&...args) const {
-    m_function(std::forward<InvokeArgs...>(args...));
+    if constexpr (sizeof ...(InvokeArgs) == 0) {
+      m_function();
+    } else {
+      m_function(std::forward<InvokeArgs...>(args...));
+    }
   }
 
   auto operator<=>(const Delegate &rhs) const { return m_name <=> rhs.m_name; }
@@ -100,7 +104,11 @@ public:
   template <typename... InvokeArgs>
   void Dispatch(InvokeArgs &&...args) {
     for (auto &listener : m_event_listeners) {
-      listener(std::forward<InvokeArgs...>(args...));
+      if constexpr (sizeof ...(InvokeArgs) == 0) {
+        listener();
+      } else {
+        listener(std::forward<InvokeArgs...>(args...));
+      }
     }
   }
 
@@ -109,5 +117,4 @@ public:
 private:
   std::vector<Delegate<Args...>> m_event_listeners;
 };
-
 #endif // COSMOS_EVENT_H

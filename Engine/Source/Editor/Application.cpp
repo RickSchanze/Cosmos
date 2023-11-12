@@ -138,11 +138,15 @@ void Application::TickEditorUI() {
   ImGui::End();
 
   if (m_main_scene_view_widget != nullptr) {
-    m_main_scene_view_widget->Render();
+    m_main_scene_view_widget->BeginGUIRender();
+    m_main_scene_view_widget->RenderGUI();
+    m_main_scene_view_widget->EndGUIRender();
   }
 
   for (const auto &widget : m_widgets) {
-    widget->Render();
+    widget->BeginGUIRender();
+    widget->RenderGUI();
+    widget->EndGUIRender();
   }
 
   ImGui::Render();

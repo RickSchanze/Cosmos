@@ -12,7 +12,7 @@
 #include "Function/Component/CameraComponent.h"
 #include "imgui.h"
 
-void Editor::DebugWidget::Render() {
+void Editor::DebugWidget::RenderGUI() {
   ImGui::Begin(m_name.c_str());
   ImGui::ColorEdit4("clear color", &m_clear_color.x);
   ImGui::SliderFloat("camera speed", &m_camera_speed, 0.0f, 5.f);

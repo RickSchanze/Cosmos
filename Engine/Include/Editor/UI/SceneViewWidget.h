@@ -28,7 +28,7 @@ namespace Editor {
 // 这是一个比较特殊的Widget，因为需要管理Level里物体的渲染
 class SceneViewWidget : public Widget {
 public:
-  explicit SceneViewWidget(std::string name = "SceneViewWidget");
+  explicit SceneViewWidget(const std::string &name = "SceneViewWidget");
   SceneViewWidget(int width, int height, std::string name = "SceneViewWidget");
   ~SceneViewWidget();
 
@@ -38,7 +38,7 @@ public:
   void TakeMouseMoveEvent(MouseMoveEventParams event);
 
   // 这里仅渲染GUI
-  void Render() override;
+  void RenderGUI() override;
 
   void TickRender();
 
@@ -59,7 +59,6 @@ public:
 private:
   FrameBufferObject *m_frame_buffer_object;
   ImVec4 m_clear_color{1.f, 0.55f, 0.60f, 1.0f};
-  std::string m_name;
   Level *m_level;
   GameObject *m_camera_object{};
   CameraComponent *m_camera_component{};

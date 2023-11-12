@@ -16,7 +16,7 @@ public:
   explicit DebugWidget(const std::string &name = "DebugWidget");
   ~DebugWidget() = default;
 
-  void Render() override;
+  void RenderGUI() override;
 
 private:
   ImVec4 m_clear_color{0.45f, 0.55f, 0.60f, 1.0f};

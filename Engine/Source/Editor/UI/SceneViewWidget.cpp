@@ -23,7 +23,7 @@
 
 Editor::SceneViewWidget::SceneViewWidget(int width, int height, std::string name) : SceneViewWidget(std::move(name)) {}
 
-Editor::SceneViewWidget::SceneViewWidget(std::string name) : m_name(std::move(name)) {
+Editor::SceneViewWidget::SceneViewWidget(const std::string &name) : Widget(name) {
   m_frame_buffer_object = new FrameBufferObject(1920, 1080);
   UIEvents::OnClearColorChange.AddEventListener("GlobalClearColorChanged", this, &SceneViewWidget::SetClearColor);
   GameEvent::KeyDownEvent.AddEventListener("SceneViewWidget_KeyDown", this, &SceneViewWidget::TakeInputKeyDown);
@@ -43,24 +43,27 @@ Editor::SceneViewWidget::~SceneViewWidget() {
   GameEvent::MouseMoveEvent.RemoveEventListener("SceneViewWidget_MouseMove");
 }
 
-void Editor::SceneViewWidget::Render() {
-  ImGui::Begin(m_name.c_str());
-  if (ImGui::IsWindowFocused()) {
-    if (!m_focused) {
-      GameEvent::MouseLockEvent.Dispatch(true);
-      m_camera_component->EnableInput = true;
-      m_focused = true;
-    }
-  } else {
-    if (m_focused) {
-      GameEvent::MouseLockEvent.Dispatch(false);
-      m_camera_component->EnableInput = false;
-      m_focused = false;
-      ImGui::SetItemDefaultFocus();
-    }
-  }
+void Editor::SceneViewWidget::RenderGUI() {
+  // if (ImGui::IsWindowFocused()) {
+  //   if (!m_focused) {
+  //     GameEvent::MouseLockEvent.Dispatch(true);
+  //     m_camera_component->EnableInput = true;
+  //     m_focused = true;
+  //   }
+  // } else {
+  //   if (m_focused) {
+  //     GameEvent::MouseLockEvent.Dispatch(false);
+  //     m_camera_component->EnableInput = false;
+  //     m_focused = false;
+  //     ImGui::SetItemDefaultFocus();
+  //   }
+  // }
   ImGui::Image(reinterpret_cast<ImTextureID>(m_frame_buffer_object->GetFBO()), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
-  ImGui::End();
+  ImGui::SetItemAllowOverlap();
+  ImGui::SetCursorPos(ImGui::GetWindowContentRegionMin());
+  if (ImGui::Button("A")) {
+    LOG_INFO("test");
+  }
 }
 
 void Editor::SceneViewWidget::BeginRender() {
@@ -69,7 +72,9 @@ void Editor::SceneViewWidget::BeginRender() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Editor::SceneViewWidget::EndRender() { m_frame_buffer_object->Unbind(); }
+void Editor::SceneViewWidget::EndRender() {
+  m_frame_buffer_object->Unbind();
+}
 
 void Editor::SceneViewWidget::TickEndFrame() { m_level->TickEndFrame(); }
 
