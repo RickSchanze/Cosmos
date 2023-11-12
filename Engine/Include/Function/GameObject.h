@@ -52,10 +52,10 @@ public:
   bool RemoveComponent();
 
   void SetOwnerLevel(Level *level);
-  [[nodiscard]] inline Level *GetOwnerLevel() const { return m_owner_level; }
+  Level *GetOwnerLevel() const { return m_owner_level; }
 
-  [[nodiscard]] inline std::string GetName() const { return m_name; }
-  inline void SetName(std::string name) { m_name = std::move(name); }
+  std::string GetName() const { return m_name; }
+  void SetName(std::string name) { m_name = std::move(name); }
 
 protected:
   void TickRender();

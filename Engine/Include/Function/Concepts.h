@@ -10,9 +10,9 @@ class GameObject;
 class Component;
 
 template <typename T>
-concept IsGameObject = std::is_base_of<GameObject, T>::value;
+concept IsGameObject = std::is_base_of_v<GameObject, T>;
 
 template <typename T>
-concept IsComponent = std::is_base_of<Component, T>::value;
+concept IsComponent = std::is_base_of_v<Component, T>;
 
 #endif // COSMOS_CONCEPTS_H

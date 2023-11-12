@@ -15,8 +15,10 @@ class Widget {
 public:
   virtual void Render() {}
 
-  [[nodiscard]] inline std::string GetName() const { return m_name; }
-  inline void SetName(std::string name) { m_name = std::move(name); }
+  virtual ~Widget() = default;
+
+  std::string GetName() const { return m_name; }
+  void SetName(std::string name) { m_name = std::move(name); }
 
 protected:
   std::string m_name;

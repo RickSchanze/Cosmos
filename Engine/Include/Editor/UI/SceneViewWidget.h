@@ -50,7 +50,7 @@ public:
 
   void EndPlay();
 
-  inline void SetClearColor(const ImVec4 &color) { m_clear_color = color; }
+  void SetClearColor(const ImVec4 &color) { m_clear_color = color; }
 
   void BeginRender();
 
@@ -66,8 +66,8 @@ private:
   bool m_focused;
 
 public:
-  [[nodiscard]] inline Level *GetLevel() const { return m_level; }
-  [[nodiscard]] inline CameraComponent* GetMainCamera() const { return m_camera_component; }
+  Level *GetLevel() const { return m_level; }
+  CameraComponent* GetMainCamera() const { return m_camera_component; }
 
 private:
   std::shared_ptr<VertexBufferObject> m_test_vbo;

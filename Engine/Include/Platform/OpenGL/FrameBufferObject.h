@@ -34,8 +34,8 @@ public:
    */
   void ResizeRenderBuffer(int x, int y) const;
 
-  [[nodiscard]] inline uint32_t GetFBO() const { return m_FBO_id; }
-  [[nodiscard]] inline uint32_t GetRBO() const { return m_RBO_id; }
+  uint32_t GetFBO() const { return m_FBO_id; }
+  uint32_t GetRBO() const { return m_RBO_id; }
 
 private:
   uint32_t m_FBO_id{};

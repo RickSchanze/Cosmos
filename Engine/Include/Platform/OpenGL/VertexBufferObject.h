@@ -26,8 +26,7 @@ public:
    * @param data_layout4
    */
   explicit VertexBufferObject(DataLayoutOfVbo data_layout1, DataLayoutOfVbo data_layout2 = DataLayoutOfVbo::None,
-                              DataLayoutOfVbo data_layout3 = DataLayoutOfVbo::None,
-                              DataLayoutOfVbo data_layout4 = DataLayoutOfVbo::None);
+                              DataLayoutOfVbo data_layout3 = DataLayoutOfVbo::None, DataLayoutOfVbo data_layout4 = DataLayoutOfVbo::None);
   ~VertexBufferObject();
 
   void Bind() const;
@@ -35,8 +34,8 @@ public:
 
   void SetData(const void *data, uint32_t size) const;
 
-  [[nodiscard]] inline uint32_t GetVBO() const { return m_VBO_id; }
-  [[nodiscard]] inline const DataLayoutOfVbo *const GetDataLayouts() const { return m_data_layout; }
+  uint32_t GetVBO() const { return m_VBO_id; }
+  const DataLayoutOfVbo *const GetDataLayouts() const { return m_data_layout; }
 
 private:
   uint32_t m_VBO_id{};

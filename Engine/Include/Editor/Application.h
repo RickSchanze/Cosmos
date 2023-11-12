@@ -4,11 +4,8 @@
 
 #ifndef COSMOS_APPLICATION_H
 #define COSMOS_APPLICATION_H
-#include "glad/glad.h"
-
 #include "Editor/Concepts.h"
 #include "GLFW/glfw3.h"
-#include "Platform/OpenGL/FrameBufferObject.h"
 
 #include <string>
 #include <vector>
@@ -43,7 +40,7 @@ public:
   void EndPlay();
   static Application *GetApplication();
 
-  inline Editor::SceneViewWidget* GetMainSceneViewWidget() { return m_main_scene_view_widget; }
+  Editor::SceneViewWidget* GetMainSceneViewWidget() { return m_main_scene_view_widget; }
 
 private:
   Application();

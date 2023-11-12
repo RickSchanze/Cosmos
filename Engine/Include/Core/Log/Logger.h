@@ -19,7 +19,7 @@ public:
   [[nodiscard]] const std::shared_ptr<spdlog::logger> &GetLogger() const { return m_logger; }
 
 private:
-  std::shared_ptr<class spdlog::logger> m_logger;
+  std::shared_ptr<spdlog::logger> m_logger;
 };
 
 static Logger g_logger{"cosmos-logger", COSMOS_LOG_PATH "/log.log"};

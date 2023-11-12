@@ -6,8 +6,7 @@
 #define COSMOS_VERTEXARRAYOBJECT_H
 
 #include <cstdint>
-#include <memory>
-#include <vector>
+
 
 class VertexBufferObject;
 
@@ -28,7 +27,7 @@ public:
 
   void AttributeVBO(const VertexBufferObject &vbo, int i);
 
-  [[nodiscard]] inline uint32_t GetVAO() const { return m_VAO_id; }
+  uint32_t GetVAO() const { return m_VAO_id; }
 
 private:
   uint32_t m_VAO_id{};

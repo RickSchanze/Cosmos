@@ -10,6 +10,8 @@
 
 #include "KeyEvent.h"
 
+#include <string>
+
 class KeyEventHelper {
 public:
   // 将ImGui key或GLFW_Key转换为KeyCode

@@ -20,8 +20,7 @@ void Editor::DebugWidget::Render() {
   ImGui::End();
   UIEvents::OnClearColorChange.Dispatch(m_clear_color);
   if (Application::GetApplication() && Application::GetApplication()->GetMainSceneViewWidget()) {
-    auto *main_camera = Application::GetApplication()->GetMainSceneViewWidget()->GetMainCamera();
-    if (main_camera) {
+    if (auto *main_camera = Application::GetApplication()->GetMainSceneViewWidget()->GetMainCamera()) {
       main_camera->MovementSpeed = m_camera_speed;
       main_camera->MouseSensitivity = m_sensitive;
     }

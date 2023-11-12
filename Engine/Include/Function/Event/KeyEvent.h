@@ -7,16 +7,14 @@
 
 #ifndef COSMOS_KEYEVENT_H
 #define COSMOS_KEYEVENT_H
-#include "Core/Base/EventSystem.h"
 #include "KeyCode.h"
 
 /**
  * 键盘按下事件，只在按下时触发一次
  */
 struct KeyPressedEventParams {
-public:
   explicit KeyPressedEventParams(KeyCode key_code) :Key(key_code) {}
-  KeyPressedEventParams(const KeyPressedEventParams &event) { Key = event.Key; };
+  KeyPressedEventParams(const KeyPressedEventParams &event) { Key = event.Key; }
 
   KeyCode Key;
 };
@@ -25,7 +23,6 @@ public:
  * 键盘释放事件，只在释放时触发一次
  */
 struct KeyReleasedEventParams {
-public:
   explicit KeyReleasedEventParams(KeyCode key_code): Key(key_code) {}
   KeyReleasedEventParams(const KeyReleasedEventParams &event) { Key = event.Key; };
 
@@ -35,10 +32,9 @@ public:
 /**
  * 键盘按下事件，只要按下就会触发
  */
-struct KeyDownEventParams : public Event<KeyCode> {
-public:
-  explicit KeyDownEventParams(KeyCode key_code) : Event(), Key(key_code) {}
-  KeyDownEventParams(const KeyDownEventParams &event) { Key = event.Key; };
+struct KeyDownEventParams {
+  explicit KeyDownEventParams(KeyCode key_code) : Key(key_code) {}
+  KeyDownEventParams(const KeyDownEventParams &event) { Key = event.Key; }
 
   KeyCode Key;
 };

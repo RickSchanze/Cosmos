@@ -12,7 +12,6 @@
 #ifndef COSMOS_EVENT_H
 #define COSMOS_EVENT_H
 #include <functional>
-#include <map>
 #include <set>
 #include <string>
 #include <utility>
@@ -26,7 +25,7 @@ public:
     m_function(std::forward<InvokeArgs...>(args...));
   }
 
-  auto operator<=>(const Delegate<Args...> &rhs) const { return m_name <=> rhs.m_name; }
+  auto operator<=>(const Delegate &rhs) const { return m_name <=> rhs.m_name; }
 
   template <typename ObjectType, typename ClassFuncType>
   explicit Delegate(std::string name, ObjectType *obj, ClassFuncType func) : m_name(std::move(name)) {
@@ -53,8 +52,8 @@ public:
     m_function = std::move(func);
   }
 
-  [[nodiscard]] inline const std::string &GetName() const { return m_name; }
-  inline void SetName(std::string name) { m_name = std::move(name); }
+  const std::string &GetName() const { return m_name; }
+  void SetName(std::string name) { m_name = std::move(name); }
 
 private:
   std::function<void(Args...)> m_function;
@@ -66,8 +65,8 @@ class Event {
 public:
   Event() = default;
   // 禁止拷贝构造和赋值
-  Event(const Event<Args...> &) = delete;
-  Event &operator=(const Event<Args...> &) = delete;
+  Event(const Event &) = delete;
+  Event &operator=(const Event &) = delete;
 
   /*
    * @brief 添加事件监听器,使用了std::move因此如果调用了此函数就不要使用delegate来调用函数了

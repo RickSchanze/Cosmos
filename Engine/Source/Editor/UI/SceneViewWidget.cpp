@@ -81,8 +81,8 @@ void Editor::SceneViewWidget::TickLogic() {
 void Editor::SceneViewWidget::TickRender() {
   m_camera_object->TickRender();
   m_level->TickRender();
-  glm::mat4 projection = m_camera_component->GetProjectionMatrix();
-  glm::mat4 view = m_camera_component->GetViewMatrix();
+  const glm::mat4 projection = m_camera_component->GetProjectionMatrix();
+  const glm::mat4 view = m_camera_component->GetViewMatrix();
   m_shader->Use();
   m_shader->SetMatrix4f("model", glm::mat4(1.0f));
   m_shader->SetMatrix4f("view", view);

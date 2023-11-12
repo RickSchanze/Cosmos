@@ -2,8 +2,11 @@
 // Created by Echo on 2023/10/3.
 //
 
-#include "Editor/Application.h"
+// glad必修作为第一个包含
+#include "glad/glad.h"
+
 #include "Core/Log/Logger.h"
+#include "Editor/Application.h"
 #include "Editor/EditorUIHelper.h"
 #include "Editor/UI/DebugWidget.h"
 #include "Editor/UI/SceneViewWidget.h"
@@ -52,10 +55,9 @@ void Application::glfwInitialize() {
 
   glfwMakeContextCurrent(m_main_window);
   glfwSetCursorPosCallback(m_main_window, &Application::MouseMoveCallback_GLFW);
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+  if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
     LOG_ERROR("初始化GLAD失败");
     glfwTerminate();
-    return;
   }
 }
 
@@ -66,7 +68,7 @@ void Application::ImGuiShutdown() {
 }
 
 void Application::ImGuiInitialize() {
-  std::string version = (const char *)glGetString(GL_VERSION);
+  std::string version = reinterpret_cast<const char *>(glGetString(GL_VERSION));
   LOG_INFO("OpenGL版本: {}", version);
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
@@ -117,15 +119,15 @@ void Application::TickEditorUI() {
   ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
   // 检测键盘事件
   for (int key = ImGuiKey_NamedKey_BEGIN; key < ImGuiKey_COUNT; key++) {
-    if (ImGui::IsKeyPressed((ImGuiKey)key, false)) {
+    if (ImGui::IsKeyPressed(static_cast<ImGuiKey>(key), false)) {
       KeyPressedEventParams event{KeyEventHelper::GetKeyCode(key)};
       GameEvent::KeyPressedEvent.Dispatch(event);
     }
-    if (ImGui::IsKeyReleased((ImGuiKey)key)) {
+    if (ImGui::IsKeyReleased(static_cast<ImGuiKey>(key))) {
       KeyReleasedEventParams event{KeyEventHelper::GetKeyCode(key)};
       GameEvent::KeyReleasedEvent.Dispatch(event);
     }
-    if (ImGui::IsKeyDown((ImGuiKey)key)) {
+    if (ImGui::IsKeyDown(static_cast<ImGuiKey>(key))) {
       KeyDownEventParams event{KeyEventHelper::GetKeyCode(key)};
       GameEvent::KeyDownEvent.Dispatch(event);
     }
@@ -139,7 +141,7 @@ void Application::TickEditorUI() {
     m_main_scene_view_widget->Render();
   }
 
-  for (auto &widget : m_widgets) {
+  for (const auto &widget : m_widgets) {
     widget->Render();
   }
 
@@ -165,7 +167,7 @@ void Application::OtherShutdown() {
   // 删除主显示对象
   delete m_main_scene_view_widget;
   // 删除其他的Widget
-  for (auto &widget : m_widgets) {
+  for (const auto &widget : m_widgets) {
     delete widget;
   }
 }
@@ -185,7 +187,7 @@ void Application::EndPlay() {
   GameEvent::MouseLockEvent.RemoveEventListener(GetLockMouseEventHandlerName());
 }
 
-void Application::LockMouse_GLFW(bool lock) {
+void Application::LockMouse_GLFW(const bool lock) {
   if (lock) {
     glfwSetInputMode(m_main_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   } else {
@@ -226,7 +228,7 @@ template <typename T>
 requires Editor::IsWidget<T>
 T *Application::AddWidget(std::string name) {
   // 检查名字是否重复
-  if (std::find_if(m_widgets.begin(), m_widgets.end(), [&name](Editor::Widget *w) { return w->GetName() == name; }) != m_widgets.end()) {
+  if (std::find_if(m_widgets.begin(), m_widgets.end(), [&name](const Editor::Widget *w) { return w->GetName() == name; }) != m_widgets.end()) {
     LOG_ERROR("添加Widget失败，名字为{}的widget已存在", name);
     return nullptr;
   }
