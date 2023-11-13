@@ -1,14 +1,12 @@
 /**
  * @file BaseUIElement.h
- * @author Echo 
+ * @author Echo
  * @Date 2023/11/13
- * @brief 
+ * @brief
  */
 
 #ifndef BASEUIELEMENT_H
 #define BASEUIELEMENT_H
-
-
 
 class BaseUIElement {
 public:
@@ -16,6 +14,4 @@ public:
   virtual ~BaseUIElement() = default;
 };
 
-
-
-#endif //BASEUIELEMENT_H
+#endif // BASEUIELEMENT_H

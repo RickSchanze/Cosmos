@@ -8,6 +8,8 @@
 #ifndef COSMOS_WIDGET_H
 #define COSMOS_WIDGET_H
 
+#include "Core/Log/Logger.h"
+
 #include <string>
 #include <utility>
 #include <vector>
@@ -17,7 +19,7 @@ class BaseUIElement;
 namespace Editor {
 class Widget {
 public:
-  explicit Widget(std::string name = "Widget");
+  explicit Widget(const std::string &name = "Widget");
   virtual void RenderGUI();
   /** 渲染EditorU前的准备工作,必须调用ImGui::Begin */
   virtual void BeginGUIRender();
@@ -26,9 +28,12 @@ public:
 
   virtual ~Widget();
 
-  template <typename ElementType, typename... Args> requires std::is_base_of_v<BaseUIElement, ElementType>
-  ElementType* AddElement(Args... args) {
-    ElementType* element = new ElementType(std::forward<Args>(args)...);
+  template <typename ElementType, typename... Args>
+  requires std::is_base_of_v<BaseUIElement, ElementType>
+  ElementType *AddElement(Args... args) {
+    ElementType *element = new ElementType(std::forward<Args>(args)...);
+    LOG_INFO("Base:{}", std::is_base_of_v<BaseUIElement, ElementType>)
+    m_elements.push_back(element);
     return element;
   }
 
@@ -36,7 +41,6 @@ public:
   void SetName(std::string name) { m_name = std::move(name); }
 
 protected:
-
   virtual void ConstructUIElements() {}
 
   std::string m_name;

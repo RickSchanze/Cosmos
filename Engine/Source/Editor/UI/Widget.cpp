@@ -10,7 +10,7 @@
 #include "Editor/Element/BaseUIElement.h"
 
 #include <imgui.h>
-Editor::Widget::Widget(std::string name): m_name(name) {}
+Editor::Widget::Widget(const std::string &name): m_name(name) {}
 void Editor::Widget::RenderGUI() {
   for (const auto &element : m_elements) {
     element->Render();

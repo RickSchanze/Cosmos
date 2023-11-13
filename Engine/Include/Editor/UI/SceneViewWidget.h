@@ -7,6 +7,7 @@
 
 #ifndef COSMOS_SCENEVIEWWIDGET_H
 #define COSMOS_SCENEVIEWWIDGET_H
+#include "Editor/Element/Button.h"
 #include "Function/Event/KeyEvent.h"
 #include "Function/Event/MouseEvent.h"
 #include "Widget.h"
@@ -25,11 +26,13 @@ class CameraComponent;
 
 namespace Editor {
 
-// 这是一个比较特殊的Widget，因为需要管理Level里物体的渲染
+/**
+ * @brief 这是一个比较特殊的Widget，因为需要管理Level里物体的渲染
+ * TODO: 终极目标是实现点击此view即可开始编辑,当前编辑/在场景内转动/移动视角需要点击按钮
+ */
 class SceneViewWidget : public Widget {
 public:
   explicit SceneViewWidget(const std::string &name = "SceneViewWidget");
-  SceneViewWidget(int width, int height, std::string name = "SceneViewWidget");
   ~SceneViewWidget();
 
   void TakeInputKeyDown(KeyDownEventParams event);
@@ -55,6 +58,12 @@ public:
   void BeginRender();
 
   void EndRender();
+
+protected:
+
+  void OnBeginButtonClicked();
+  /** UI元素 */
+  Button* m_button_focus;
 
 private:
   FrameBufferObject *m_frame_buffer_object;

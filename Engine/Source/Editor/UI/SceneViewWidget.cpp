@@ -21,10 +21,12 @@
 #include "Platform/OpenGL/VertexBufferObject.h"
 #include "glad/glad.h"
 
-Editor::SceneViewWidget::SceneViewWidget(int width, int height, std::string name) : SceneViewWidget(std::move(name)) {}
-
 Editor::SceneViewWidget::SceneViewWidget(const std::string &name) : Widget(name) {
   m_frame_buffer_object = new FrameBufferObject(1920, 1080);
+  m_button_focus = AddElement<Button>("开始");
+  if (m_button_focus) {
+    m_button_focus->ButtonClickedEvent.AddEventListener("BeginButtonClicked", this, &SceneViewWidget::OnBeginButtonClicked);
+  }
   UIEvents::OnClearColorChange.AddEventListener("GlobalClearColorChanged", this, &SceneViewWidget::SetClearColor);
   GameEvent::KeyDownEvent.AddEventListener("SceneViewWidget_KeyDown", this, &SceneViewWidget::TakeInputKeyDown);
   GameEvent::KeyReleasedEvent.AddEventListener("SceneViewWidget_KeyReleased", this, &SceneViewWidget::TakeInputKeyUp);
@@ -44,26 +46,10 @@ Editor::SceneViewWidget::~SceneViewWidget() {
 }
 
 void Editor::SceneViewWidget::RenderGUI() {
-  // if (ImGui::IsWindowFocused()) {
-  //   if (!m_focused) {
-  //     GameEvent::MouseLockEvent.Dispatch(true);
-  //     m_camera_component->EnableInput = true;
-  //     m_focused = true;
-  //   }
-  // } else {
-  //   if (m_focused) {
-  //     GameEvent::MouseLockEvent.Dispatch(false);
-  //     m_camera_component->EnableInput = false;
-  //     m_focused = false;
-  //     ImGui::SetItemDefaultFocus();
-  //   }
-  // }
   ImGui::Image(reinterpret_cast<ImTextureID>(m_frame_buffer_object->GetFBO()), ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
   ImGui::SetItemAllowOverlap();
   ImGui::SetCursorPos(ImGui::GetWindowContentRegionMin());
-  if (ImGui::Button("A")) {
-    LOG_INFO("test");
-  }
+  Widget::RenderGUI();
 }
 
 void Editor::SceneViewWidget::BeginRender() {
@@ -72,8 +58,11 @@ void Editor::SceneViewWidget::BeginRender() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Editor::SceneViewWidget::EndRender() {
-  m_frame_buffer_object->Unbind();
+void Editor::SceneViewWidget::EndRender() { m_frame_buffer_object->Unbind(); }
+
+void Editor::SceneViewWidget::OnBeginButtonClicked() {
+  GameEvent::MouseLockEvent.Dispatch(true);
+  m_camera_component->EnableInput = true;
 }
 
 void Editor::SceneViewWidget::TickEndFrame() { m_level->TickEndFrame(); }

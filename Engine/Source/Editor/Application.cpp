@@ -197,12 +197,6 @@ void Application::LockMouse_GLFW(const bool lock) {
   } else {
     glfwSetInputMode(m_main_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     m_mouse_position.FirstMouse = true;
-    // NOTE: 当按ESC解除鼠标锁定时,glfw开始绘制鼠标
-    // 但是ImGui实际上还是Focus在场景窗口上
-    // 这就会导致鼠标不会再被锁定
-    // 因此暂时用这个trick来解决
-    // 此窗口必须是存在的窗口,否则不起作用
-    ImGui::SetWindowFocus("调试");
   }
 }
 std::string Application::GetLockMouseEventHandlerName() {
@@ -212,20 +206,18 @@ std::string Application::GetLockMouseEventHandlerName() {
 
 // 检测鼠标是否移动
 void Application::MouseMoveCallback_GLFW(GLFWwindow *window, double xpos, double ypos) {
+  // TODO: Bug need to fix: 视角离开再进入后视野会突然闪回一下
   if (m_mouse_position.FirstMouse) {
     m_mouse_position.LastX = xpos;
     m_mouse_position.LastY = ypos;
     m_mouse_position.FirstMouse = false;
   }
-
   m_mouse_position.XOffset = xpos - m_mouse_position.LastX;
   m_mouse_position.YOffset = m_mouse_position.LastY - ypos;
   m_mouse_position.LastX = xpos;
   m_mouse_position.LastY = ypos;
-  if (m_mouse_position.XOffset != 0 || m_mouse_position.YOffset != 0) {
-    MouseMoveEventParams event{m_mouse_position.XOffset, -m_mouse_position.YOffset};
-    GameEvent::MouseMoveEvent.Dispatch(event);
-  }
+  MouseMoveEventParams event{m_mouse_position.XOffset, -m_mouse_position.YOffset};
+  GameEvent::MouseMoveEvent.Dispatch(event);
 }
 
 template <typename T>
