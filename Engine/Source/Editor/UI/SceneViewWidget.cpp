@@ -19,6 +19,7 @@
 #include "Platform/OpenGL/Shader.h"
 #include "Platform/OpenGL/VertexArrayObject.h"
 #include "Platform/OpenGL/VertexBufferObject.h"
+#include "Resource/Image.h"
 #include "glad/glad.h"
 
 Editor::SceneViewWidget::SceneViewWidget(const std::string &name) : Widget(name) {
@@ -77,6 +78,7 @@ void Editor::SceneViewWidget::TickRender() {
   m_level->TickRender();
   const glm::mat4 projection = m_camera_component->GetProjectionMatrix();
   const glm::mat4 view = m_camera_component->GetViewMatrix();
+  m_test_texture->Bind();
   m_shader->Use();
   m_shader->SetMatrix4f("model", glm::mat4(1.0f));
   m_shader->SetMatrix4f("view", view);
@@ -95,11 +97,13 @@ void Editor::SceneViewWidget::BeginPlay() {
   m_camera_object = new GameObject("MainCamera");
   m_camera_component = m_camera_object->AddComponent<CameraComponent>();
   m_test_vao = std::make_shared<VertexArrayObject>();
-  m_test_vbo = std::make_shared<VertexBufferObject>(DataLayoutOfVbo::Position, DataLayoutOfVbo::Normal);
+  m_test_vbo = std::make_shared<VertexBufferObject>(DataLayoutOfVbo::Position, DataLayoutOfVbo::Color, DataLayoutOfVbo::TexCoord);
+  Resource::Image image(COSMOS_RESOURCE_PATH "/test.jpg");
+  m_test_texture = std::make_shared<Texture>(&image);
   m_test_vao->Bind();
   m_test_vbo->Bind();
   m_test_vbo->SetData(m_test_vertices, sizeof(m_test_vertices));
-  m_test_vao->AttributeVBO(*m_test_vbo, 6 * sizeof(float));
+  m_test_vao->AttributeVBO(*m_test_vbo, 8 * sizeof(float));
   m_shader = std::make_shared<Shader>(COSMOS_SHADER_PATH "/test.vert", COSMOS_SHADER_PATH "/test.frag");
   m_level->BeginPlay();
 }
