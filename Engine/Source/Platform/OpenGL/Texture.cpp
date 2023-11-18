@@ -11,10 +11,9 @@
 #include "Resource/Image.h"
 #include "glad/glad.h"
 
-// TODO: 图像加载不应该在构造函数直接写死各个参数
-Texture::Texture(const Resource::Image *image, const int index) {
+
+Texture::Texture(const Resource::Image *image, const TextureType type) {
   if (image && image->IsValid()) {
-    m_texture_index = index;
     glGenTextures(1, &m_id);
     glBindTexture(GL_TEXTURE_2D, m_id);
     // 纹理环绕参数
@@ -25,20 +24,32 @@ Texture::Texture(const Resource::Image *image, const int index) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // GL_NEAREST
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->GetWidth(), image->GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image->GetData());
     glGenerateMipmap(GL_TEXTURE_2D);
+    m_type = type;
+    m_path = image->GetFilePath();
   } else {
     LOG_ERROR("纹理创建失败,图像无效,路径:{}", image->GetFilePath());
   }
 }
-
 Texture::~Texture(){
-  glDeleteTextures(1, &m_id);
 }
 
-void Texture::Bind() {
-  Bind(m_texture_index);
-}
+void Texture::Activate(const int32 Index) { glActiveTexture(GL_TEXTURE0 + Index); }
 
-void Texture::Bind(const int32 Index){
-  glActiveTexture(GL_TEXTURE0 + Index);
-  glBindTexture(GL_TEXTURE_2D, m_id);
+void Texture::Bind() { glBindTexture(GL_TEXTURE_2D, m_id); }
+
+std::string Texture::GetTextureTypeString() const {
+  switch (m_type) {
+  case TextureType::Diffuse:
+    return "texture_diffuse";
+  case TextureType::Specular:
+    return "texture_specular";
+  case TextureType::Normal:
+    return "texture_normal";
+  case TextureType::Height:
+    return "texture_height";
+  case TextureType::Custom:
+    return "texture_custom";
+  default:
+    return "texture_unknown";
+  }
 }

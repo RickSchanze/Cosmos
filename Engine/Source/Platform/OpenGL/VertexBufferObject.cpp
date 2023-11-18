@@ -3,7 +3,10 @@
 //
 
 #include "Platform/OpenGL/VertexBufferObject.h"
+
+#include "Resource/Model.h"
 #include "glad/glad.h"
+
 VertexBufferObject::VertexBufferObject(DataLayoutOfVbo data_layout1, DataLayoutOfVbo data_layout2,
                                        DataLayoutOfVbo data_layout3, DataLayoutOfVbo data_layout4) {
   glGenBuffers(1, &m_VBO_id);

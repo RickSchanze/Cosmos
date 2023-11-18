@@ -76,18 +76,6 @@ private:
 public:
   Level *GetLevel() const { return m_level; }
   CameraComponent *GetMainCamera() const { return m_camera_component; }
-
-private:
-  // 下面都是测试用的
-  std::shared_ptr<VertexBufferObject> m_test_vbo;
-  std::shared_ptr<VertexArrayObject> m_test_vao;
-  std::shared_ptr<Shader> m_shader;
-  std::shared_ptr<Texture> m_test_texture;
-
-  float m_test_vertices[180] = {0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-                                -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-                                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f,   0.0f, 1.0f
-  };
 };
 
 } // namespace Editor

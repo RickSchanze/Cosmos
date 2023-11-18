@@ -13,7 +13,7 @@ file(GLOB_RECURSE HEADER_FILES Include/*.h)
 #add_definitions(-DCOSMOS_DEBUG)
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES}
-        ${HEADER_FILES})
+        ${HEADER_FILES} Source/Resource/Model.cpp Include/Resource/Model.h)
 
 configure_file(${PROJECT_SOURCE_DIR}/Include/Global/ExternalVariables.h.in
         ${PROJECT_SOURCE_DIR}/Include/Global/ExternalVariables.h)

@@ -1,3 +1,3 @@
-[2023-11-15 15:31:05.706][thread 28008][Application.cpp,Application::ImGuiInitialize][info]: OpenGL版本: 3.3.0 NVIDIA 536.99
-[2023-11-15 15:31:05.716][thread 28008][Widget.h,Editor::Widget::AddElement][info]: Base:true
-[2023-11-15 15:31:05.727][thread 28008][Shader.cpp,Shader::Shader][info]: Shader program 3 successes!
+[2023-11-18 14:28:05.017][thread 10304][Shader.cpp,Shader::Shader][info]: Shader program 3 successes!
+[2023-11-18 14:28:04.928][thread 10304][Widget.h,Editor::Widget::AddElement][info]: Base:true
+[2023-11-18 14:28:04.898][thread 10304][Application.cpp,Application::ImGuiInitialize][info]: OpenGL版本: 3.3.0 - Build 27.20.100.8853

@@ -9,6 +9,7 @@
 #define COSMOS_SHADER_H
 #include "glm/ext/matrix_float4x4.hpp"
 #include <cstdint>
+#include <string>
 
 class Shader {
 public:
